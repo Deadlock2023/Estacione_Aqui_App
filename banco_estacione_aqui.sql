@@ -1,0 +1,144 @@
+-- --------------------------------------------------------
+-- Servidor:                     127.0.0.1
+-- Versão do servidor:           10.4.32-MariaDB - mariadb.org binary distribution
+-- OS do Servidor:               Win64
+-- HeidiSQL Versão:              12.8.0.6908
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+-- Copiando estrutura do banco de dados para estacione_aqui
+DROP DATABASE IF EXISTS `estacione_aqui`;
+CREATE DATABASE IF NOT EXISTS `estacione_aqui` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `estacione_aqui`;
+
+-- Copiando estrutura para tabela estacione_aqui.desenvolvedores
+DROP TABLE IF EXISTS `desenvolvedores`;
+CREATE TABLE IF NOT EXISTS `desenvolvedores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  `login` varchar(100) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `senha` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Copiando dados para a tabela estacione_aqui.desenvolvedores: ~9 rows (aproximadamente)
+INSERT INTO `desenvolvedores` (`id`, `nome`, `login`, `email`, `senha`) VALUES
+	(1, 'Miguel Sabino Galvão', 'miguelsabino.galvao@gmail.com', 'miguelsabino.galvao@gmail.com', '91ea856dc1eb004d31bce64f182c4590cda42c510d4acfee2b7491d4745eeae8'),
+	(2, 'João Victor Silva Peixoto', 'chinbrinha12@gmail.com', 'chinbrinha12@gmail.com', 'b83ffbedb2e021decc67ebed565252a700edb59f5e26e3eefad995ab36b76262'),
+	(4, 'Paulo Ricardo Silva De Castro', 'pauloricardosilvadecastro@gmail.com', 'pauloricardosilvadecastro@gmail.com', '77f58be1537fb3cae5a95bd8ec9140748566e6b603a1f1d0082a7d14aa847bf5'),
+	(5, 'Anderson Roberto De Aguiar', 'anderson.roberto3@senaisp.edu.br', 'anderson.roberto3@senaisp.edu.br', 'c1fafc5d917585c2f526235290f5a437f4d850ffe05cc51b9bd4980785bbc3d4'),
+	(6, 'Rodrigo Alves Nunes ', 'rodrigo.anunes@portalsesisp.org.br', 'rodrigo.anunes@portalsesisp.org.br', 'da24cc20f14a259ce12f18dcc3d31e3110139771ba20b342949859b6ee34f38e'),
+	(7, 'Matheus Souza De Oliveira', 'matheus.oliveira238@senaisp.edu.br', 'matheus.oliveira238@senaisp.edu.br', 'ea1e76cb4948d2892ecccfbe80557de5227cc56890a17de012ec2bc0bd67577c'),
+	(8, 'Bruno De Souza Ferreira', 'bruno.ferreira23@senaisp.edu.br', 'bruno.ferreira23@senaisp.edu.br', '631b963b0608dc9986194d3d44ec7188ac7fee086bbc975abc315b54847765a3'),
+	(11, 'Jorge Gabriel Costa Dos Santos', 'jorgegabrielcdsantos@gmail.com', 'jorgegabrielcdsantos@gmail.com', '1d1a806f2e8a7ead3eb1f0bff8b2f5da650c270518c2d065185285ec7e4624b8'),
+	(12, 'Otávio Garcia', 'otavio.santos4@portalsesisp.org.br', 'otavio.santos4@portalsesisp.org.br', '2892563a30129afc976fa9877a3ab6355769ef491858ebe56fffcb3edd033923');
+
+-- Copiando estrutura para tabela estacione_aqui.estabelecimentos
+DROP TABLE IF EXISTS `estabelecimentos`;
+CREATE TABLE IF NOT EXISTS `estabelecimentos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  `url_imagem` varchar(500) NOT NULL,
+  `telefone` varchar(11) NOT NULL,
+  `horario_abertura` varchar(5) NOT NULL,
+  `horario_fechamento` varchar(5) NOT NULL,
+  `localizacao` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Copiando dados para a tabela estacione_aqui.estabelecimentos: ~10 rows (aproximadamente)
+INSERT INTO `estabelecimentos` (`id`, `nome`, `url_imagem`, `telefone`, `horario_abertura`, `horario_fechamento`, `localizacao`) VALUES
+	(1, 'JB espetinho', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpMRvMGTvNsaWlKhfllPkmA05fdyLUImwbBw&s', '15998745654', '17:30', '00:00', 'Rua john bibon, numero 1254, centro, miguelopoles SP'),
+	(2, 'Joao biba espetinhos 2', 'https://img.restaurantguru.com/ccd3-Pub-and-bar-Biba-Joao-Espetinhos-photo.jpg', '57996588547', '19:00', '23:40', 'Av. Ponta Porã, 221-241 - Jardim Alvorada, Três Lagoas - MS'),
+	(3, 'Estacionamento do Rodolfo', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSp5rL94W5xT9o45BZqKv5pVO0EgRffrrKxPQ&s', '18998200716', '08:20', '16:30', 'Rua Almir Batista Dutra, 125'),
+	(4, 'Estacionamento do Galvão', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfWUpCFAC7yifGYKiFROwvryPRsKVm47fTiw&s', '12998745653', '08:00', '18:00', 'R. Galvão Bueno, 475'),
+	(5, 'Aeroporto Ademar de Barros', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDW2GTqlcxN3pNz4UNiJZpa9GI0tnvf5NuaQ&s', '18998201447', '08:00', '23:30', 'Raposo tavares, vicinal'),
+	(6, 'Estacionamento Raphael 2', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfk-rX6xYTkpBflbpdMBwupsS4V5tHzDsyog&s', '18997722545', '09:00', '20:00', 'Rua Carlos Dias, 557'),
+	(7, 'John Lui restaurante 34', 'https://storage.caosplanejado.com/uploads/2021/07/Estacionamento-1.jpg', '18998545577', '08:00', '21:30', 'Carolina do sul, 1457'),
+	(8, 'Kauã brito estacionamento', 'https://d13esfgglb25od.cloudfront.net/lot_img/168000/71d5b40c7e484a069856631968e396d2_medium.jpg', '18998744558', '09:00', '22:30', 'João Carlos Alfredo, 1223'),
+	(9, 'João Peixes Estacionamento 2', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeJ6ste9BFgPDFky4y590iXRChEQOOnBGfuw&s', '18996999899', '07:30', '19:00', 'Rua Curva Velha 45'),
+	(10, 'Bar do Zé butina', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHFE7xIqvCCfqWzWQmGwvwViTijrtWdWl76g&s', '15998784574', '08:00', '16:00', 'Rua Armindo José Dias, 1233');
+
+-- Copiando estrutura para tabela estacione_aqui.usuarios
+DROP TABLE IF EXISTS `usuarios`;
+CREATE TABLE IF NOT EXISTS `usuarios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `login` varchar(100) NOT NULL,
+  `senha` varchar(100) NOT NULL,
+  `verification_code` varchar(255) DEFAULT NULL,
+  `verification_expires` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Copiando dados para a tabela estacione_aqui.usuarios: ~52 rows (aproximadamente)
+INSERT INTO `usuarios` (`id`, `usuario`, `email`, `login`, `senha`, `verification_code`, `verification_expires`) VALUES
+	(1, 'Ana Silva', 'ana.silva@example.com', 'ana.silva', '55a5e9e78207b4df8699d60886fa070079463547b095d1a05bc719bb4e6cd251', NULL, NULL),
+	(2, 'Bruno Costa', 'bruno.costa@example.com', 'bruno.costa', '6b08d780140e292a4af8ba3f2333fc1357091442d7e807c6cad92e8dcd0240b7', NULL, NULL),
+	(3, 'Carlos Pereira', 'carlos.pereira@example.com', 'carlos.pereira', 'b578dc5fcbfabbc7e96400601d0858c951f04929faef033bbbc117ab935c6ae9', NULL, NULL),
+	(4, 'Daniela Souza', 'daniela.souza@example.com', 'daniela.souza', '2288821c6b799cf47a8c9aa231f361ffb906bbee0d5fb5e1767509e27442cc62', NULL, NULL),
+	(5, 'Eduardo Lima', 'eduardo.lima@example.com', 'eduardo.lima', 'bdade8e386731cab0ba59a7d6ea1936b1fca870437fee103112fec6d8afcc30d', NULL, NULL),
+	(6, 'Fernanda Almeida', 'fernanda.almeida@example.com', 'fernanda.almeida', 'ef4c20bace3f51dd85f4d7a67e43ba9901a80037a5e6a45dc5e13a8e20d73126', NULL, NULL),
+	(7, 'Gabriel Rocha', 'gabriel.rocha@example.com', 'gabriel.rocha', '2c70dfbc967bd610fc7fbc6dfef0708a99d6be1fc44be3dffa47f0dde132442b', NULL, NULL),
+	(8, 'Helena Martins', 'helena.martins@example.com', 'helena.martins', 'efef5e906af2c59a7a2ea808cf7f55c09cbe2d66dfa2552305e3594b02067c4e', NULL, NULL),
+	(9, 'Igor Santos', 'igor.santos@example.com', 'igor.santos', '5b8c3ba7de01a6d1a7fef7209281250eb1af7e4b68604d9e16d3e6931b47c865', NULL, NULL),
+	(10, 'Juliana Mendes', 'juliana.mendes@example.com', 'juliana.mendes', '7143ac38138aa93a30328f399c0f6bdd0a7260a88c60df78820fa0069b074948', NULL, NULL),
+	(11, 'Kleber Ferreira', 'kleber.ferreira@example.com', 'kleber.ferreira', 'f0ec3d1edc095b9754ebe57c4f3150f2c7e54c80eb0f3e66e9a96cdedd3eeb81', NULL, NULL),
+	(12, 'Larissa Oliveira', 'larissa.oliveira@example.com', 'larissa.oliveira', 'b9d085288c02ac8454b4213720cb70ca8bf15cb42da2e706fbb80d605a943f48', NULL, NULL),
+	(13, 'Marcos Silva', 'marcos.silva@example.com', 'marcos.silva', 'a61e6fcef06150477190391d2f7571189e7323304e4d6bde4c74da96fb4e828a', NULL, NULL),
+	(14, 'Natália Costa', 'natalia.costa@example.com', 'natalia.costa', 'bdb3fcf69aa424c617baf001c536bc5b33f230b9b00333dde19c690da17c25e7', NULL, NULL),
+	(15, 'Otávio Almeida', 'otavio.almeida@example.com', 'otavio.almeida', 'af7cc5ed1ab76176c1eb9c18ccd08c9ccd2e5727ee5bf9e012aa66c86a9c4430', NULL, NULL),
+	(16, 'Paula Santos', 'paula.santos@example.com', 'paula.santos', '6dbe0a0506cf758b622ddd363148b9b332e96cf3234e4e0b8baa809549771a18', NULL, NULL),
+	(17, 'Quiteria Ramos', 'quiteria.ramos@example.com', 'quiteria.ramos', '55b563d3c2753658a2f1c158e23e0fe05ee2da79ab5825209fc72a0be29b6fe9', NULL, NULL),
+	(18, 'Ricardo Lima', 'ricardo.lima@example.com', 'ricardo.lima', 'decbd8b9ed3b9d892342965b23698e9c2458f0b18d9bedec1a1308082740c934', NULL, NULL),
+	(19, 'Sofia Martins', 'sofia.martins@example.com', 'sofia.martins', 'a395aada0d738ed3476886c7578bc2aefe668a80059cc120b1733bdebfb29218', NULL, NULL),
+	(20, 'Thiago Ferreira', 'thiago.ferreira@example.com', 'thiago.ferreira', 'c9b4c38b73c3ec815cbc57f5fe96895f998b881d5e3247702f7ec6dc90d08f97', NULL, NULL),
+	(21, 'Ursula Nunes', 'ursula.nunes@example.com', 'ursula.nunes', '77bc9d23b3825870e85136e1ea1f323578f8681a311acc5cbdaf4f91170998b2', NULL, NULL),
+	(22, 'Vinícius Costa', 'vinicius.costa@example.com', 'vinicius.costa', 'cdd400173815fc6aa6def1c66e9b0876d1fed4b8867973f1c8d8a12543267421', NULL, NULL),
+	(23, 'Wanda Oliveira', 'wanda.oliveira@example.com', 'wanda.oliveira', '18c72ca796495e5afb1475c496d8221f2c6f48a72128948770050fd0ce512f6f', NULL, NULL),
+	(24, 'Xavier Almeida', 'xavier.almeida@example.com', 'xavier.almeida', '3f26db1152e4bd2655a408ca66feb05851e5259931efa27d4d0c8836db5f9300', NULL, NULL),
+	(25, 'Yasmin Ferreira', 'yasmin.ferreira@example.com', 'yasmin.ferreira', '149410c952ea76a32721c769da9edf7d9a74bd62a5896c32566fb3976777ec99', NULL, NULL),
+	(26, 'Zé Carlos', 'ze.carlos@example.com', 'ze.carlos', '81438b900f1c77e9154970d57d1fa27144be8240e8dc107f791d2e9867b64605', NULL, NULL),
+	(27, 'Alice Lima', 'alice.lima@example.com', 'alice.lima', '0030aedfcea48a8144a46d4bb61c7821c5a81d6555b9c350b800455f26705b68', NULL, NULL),
+	(28, 'Brenda Nascimento', 'brenda.nascimento@example.com', 'brenda.nascimento', '355f2c4bb3cd3a2c085fa6e80de161d397695ffc7f3d9d14caef1d217d3af72d', NULL, NULL),
+	(29, 'Cláudio Santos', 'claudio.santos@example.com', 'claudio.santos', '7318067eced744c7893f296b019410528a8f60138ef4f066b42073d56b0ff8a6', NULL, NULL),
+	(30, 'Diana Lopes', 'diana.lopes@example.com', 'diana.lopes', '64709bac2747a1b351455cba1d5c2d83708818d62ad2c1683f4d6023d4562556', NULL, NULL),
+	(31, 'Elias Pires', 'elias.pires@example.com', 'elias.pires', 'e76566559a51d4810b42bdd5e75e9120fce19592cc5a3e42f443ad6ce5ca37d7', NULL, NULL),
+	(32, 'Fábio Sousa', 'fabio.sousa@example.com', 'fabio.sousa', '2c3a0a5ca4147d14c20290f6d9a5686c6d9a32ab255474e555f5e80ca3301522', NULL, NULL),
+	(33, 'Gisele Rodrigues', 'gisele.rodrigues@example.com', 'gisele.rodrigues', 'b355ba3c60e9d468b034a1ed64acfeaec17d126cb36a5c7c14b9dedf97010bc2', NULL, NULL),
+	(34, 'Hugo Almeida', 'hugo.almeida@example.com', 'hugo.almeida', '33223106777b2602ab60f3dfde8944c38b7df4c36c0088bee8184f8723715160', NULL, NULL),
+	(35, 'Isabel Costa', 'isabel.costa@example.com', 'isabel.costa', '3560653186537694be7bc85eb75b4dbf43f5849398b748bf5b85b774aebc4354', NULL, NULL),
+	(36, 'João Silva', 'joao.silva@example.com', 'joao.silva', '2990b33c256a118bce5d647abf4666db215d0dbf86442fc40d796da7d562848e', NULL, NULL),
+	(37, 'Karina Mendes', 'karina.mendes@example.com', 'karina.mendes', '38f455c40d54a23746b7f4e63b7b0c4df6df74c88f5cb5914e98fd2246c0bfca', NULL, NULL),
+	(38, 'Leonardo Lima', 'leonardo.lima@example.com', 'leonardo.lima', '1620ea070a3ce8e9dbf51e668bbed0a9f2ec4138fb13ff77555c6728cc02f87d', NULL, NULL),
+	(39, 'Miriam Costa', 'miriam.costa@example.com', 'miriam.costa', 'a0185ae2b54fc6d1307405b5addf6e256b76ab6e8e38da4cb557c9aa7e0f1296', NULL, NULL),
+	(40, 'Nicolas Rocha', 'nicolas.rocha@example.com', 'nicolas.rocha', '1f30a1be4d906e7616159d2ed120e7236378b06cd74742189992cf6616cb7aed', NULL, NULL),
+	(41, 'Olivia Pereira', 'olivia.pereira@example.com', 'olivia.pereira', 'd9c8d25f8db3632d1933593fd6f41017cf4f3399d3b01f941bdee06d57a04654', NULL, NULL),
+	(42, 'Pedro Alves', 'pedro.alves@example.com', 'pedro.alves', '0680293b3bfb88845cf398cd881a8caaebe61910d5b938d37efa6f5d8011f159', NULL, NULL),
+	(43, 'Quincy Martins', 'quincy.martins@example.com', 'quincy.martins', 'ebfbc9e6b33c4c82e0c7e9a8090b569aea73d91f5cd67939b207e74822f8bff9', NULL, NULL),
+	(44, 'Raquel Santos', 'raquel.santos@example.com', 'raquel.santos', 'c953d332a2c54e44f5bfcf216b69ece8688bb39f90fd03061a00aa5bb61506f6', NULL, NULL),
+	(45, 'Samuel Nascimento', 'samuel.nascimento@example.com', 'samuel.nascimento', '7ae879cfb73180fbe99095a586d1a27908690fc3ecb31b8eee1d38e1038bff85', NULL, NULL),
+	(46, 'Tatiane Ferreira', 'tatiane.ferreira@example.com', 'tatiane.ferreira', 'a6d627a5ed3f20dbf355b124b1a1f396aab1f69e21b6a5a39d47c150b65d1c05', NULL, NULL),
+	(47, 'Ulisses Rocha', 'ulisses.rocha@example.com', 'ulisses.rocha', 'ccf775d3ce945e9a14186db86ed200cfc581cc4f35eae34c56f3cb19e906db29', NULL, NULL),
+	(48, 'Vivian Almeida', 'vivian.almeida@example.com', 'vivian.almeida', '3e41530d690e1d954858c4e1dac488880201de215e214c0784c4eb1f7cda3609', NULL, NULL),
+	(49, 'Wellington Santos', 'wellington.santos@example.com', 'wellington.santos', '4c4708c0d7425f16702eb902aa27fa7e3bf8ad0912624bfbc8be8bf3426c4140', NULL, NULL),
+	(50, 'Yuri Costa', 'yuri.costa@example.com', 'yuri.costa', '9e37e7aa917ede7285462df6a5f8a818fe2e4d41bcb32deace43343c2f359e59', NULL, NULL),
+	(51, 'Zoe Lima', 'zoe.lima@example.com', 'zoe.lima', '21ca869c47103831ce2f2d964da2321c0dcaaf1d2c378189ea3431c89daf6e3b', NULL, NULL),
+	(52, 'jojo', 'jorgegabrielcdsantos@gmail.com', 'jojo', '457d3eecb457873006bdc9ce52cae30324ce159f14fa453460c9b0f21d7b155f', '651068', '2024-11-05 16:47:24');
+
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
