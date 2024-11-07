@@ -10,6 +10,7 @@ import Login from './Login';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
+
 // const api = "10.111.9.19"
 const api = "10.111.9.45"
 
@@ -22,8 +23,8 @@ const altura = Dimensions.get("screen").height
 // const fundo_marrom = require('../../assets/imgs/fundomarrom.jpg')
 // const fundo_azul = require('../../assets/imgs/fundo_azul.jpg')
 
-const fundo_claro2 = require('../../assets/imgs/fundo_claro2.jpg')
-const fundo_escuro2 = require('../../assets/imgs/fundo_escuro2.jpg')
+const fundo_claro2 = require('../../assets/imgs/FundoCadastrologin.png')
+const fundo_escuro2 = require('../../assets/imgs/Fundo_escuro_j.png')
 const logo = require('../../assets/imgs/EstacioneAqui(2).png')
 
 
@@ -114,7 +115,7 @@ const Cadastro = ({navigation}) => {
         </View>
         <View style={{ flexDirection: 'row', marginTop: -130 }}>
           <Texto texto={'Já possui conta? '} tamanhoFonte={20}  />
-          <Text  onPress={() => navigation.navigate('Login')} style={{ color: 'blue', fontSize: 20 }}>Fazer Login</Text>
+          <Text  onPress={() => navigation.navigate('Login')} style={{ color: 'blue', fontSize: 20}}>Fazer Login</Text>
         </View>
 
 
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: '#f5f5f5',
     fontSize: 20,
-    borderColor: 'gray',
+    borderColor: 'transparent',
 
 
   },
@@ -192,7 +193,6 @@ const styles = StyleSheet.create({
 
   view_branca: {
     backgroundColor: 'white',
-    borderWidth: 1,
     height: 690,
     width: largura,
     marginTop: 140,

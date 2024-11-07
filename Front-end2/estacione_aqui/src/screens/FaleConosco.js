@@ -21,7 +21,7 @@ const Zap = require('../../assets/imgs/Whatsapp.png')
 const Insta = require('../../assets/imgs/Instagram.png')
 const Icone = require('../../assets/imgs/EstacioneAqui(2).png')
 // const Background = require('../../assets/imgs/Fundo.jpg')
-const fundo_claro4 = require('../../assets/imgs/fundo_claro4.jpg')
+const fundo_claro4 = require('../../assets/imgs/D3.png')
 const fundo_escuro4 = require('../../assets/imgs/fundo_escuro4.jpg')
 
 

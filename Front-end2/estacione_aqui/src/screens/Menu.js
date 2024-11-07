@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ImageBackground, useColorScheme } from "react-native";
+import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ImageBackground, useColorScheme,Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Login from "./Login";
 import Cadastro from "./Cadastro";
@@ -8,11 +8,13 @@ import Texto from "../components/Texto";
 import input from "../components/InputText";
 import { Switch } from 'react-native-paper'
 import { FaLevelDownAlt } from "react-icons/fa";
+import { processFontFamily } from "expo-font";
 
 
 
-const fundo_claro1 = require('../../assets/imgs/fundo_claro1.jpg')
-const fundo_escuro1 = require('../../assets/imgs/fundo_escuro1.jpg')
+const fundo_claro1 = require('../../assets/imgs/FundoDark.png')
+const fundo_escuro1 = require('../../assets/imgs/FundoLight.png')
+const logo = require('../../assets/imgs/EstacioneAqui(2).png')
 
 
   // const [fontsLoaded] = useFonts({
@@ -38,12 +40,12 @@ export default function Menu() {
     setModo(!Modo)
     if (Modo == false) {
       setImagem(fundo_escuro1)
-      setFonte('white')
+      setFonte('#36295e')
       console.log('Dark Mode')
     } else {
       // setModo(fundo_escuro)
       setImagem(fundo_claro1)
-      setFonte('#36295e')
+      setFonte('white')
       console.log('Light Mode')
       
       
@@ -64,17 +66,16 @@ export default function Menu() {
         {/* switch */}
       </View>
       <View style={{ alignContent: 'center', alignItems: 'center', height: altura, width: largura, marginTop:50}}>
-        <Texto texto={"Estacione Aqui"}  tamanhoFonte={50} mt={150} corTexto={fonte}></Texto>
-        <Texto texto={" Bem-vindo(a)!"}  tamanhoFonte={35} corTexto={fonte}></Texto>
-        <Text style={{fontSize:40, textAlign:'center', color:'black',  }}>Menu</Text>
-        <TouchableOpacity style={styles.button_ir} onPress={() => navigation.navigate('Login')}>
-          <Texto texto={"Fazer login"}  corTexto={'white'} tamanhoFonte={27} mt={6} />
+      <Image source={logo} style={{ height: 200, width: 200, bottom:-90, }} />
+       
+        <TouchableOpacity style={styles.button_ir2} onPress={() => navigation.navigate('Login')}>
+          <Texto texto={"Fazer login"}  corTexto={'black'} tamanhoFonte={27} mt={6} />
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button_ir} onPress={() => navigation.navigate('Cadastro')}>
           <Texto texto={"Se cadastrar"}  corTexto={'white'} tamanhoFonte={27} mt={6}></Texto>
         </TouchableOpacity>
-        <Text style={[styles.identificar_text2, {alignSelf:'flex-end', top:220, right:10,}]}  onPress={()=> navigation.navigate('FaleConosco')}>(Fale Conosco)</Text>
+        <Text style={[styles.identificar_text2, {alignSelf:'flex-end', top:120, right:10,}]}  onPress={()=> navigation.navigate('FaleConosco')}>(Fale Conosco)</Text>
 
 
 
@@ -88,19 +89,52 @@ export default function Menu() {
 }
 const styles = StyleSheet.create({
   button_ir: {
-    borderColor: 'black',
+    
     alignItems: 'center',
     backgroundColor: '#36295e',
     borderRadius: 10,
     alignItems: 'center',
     width: 200,
     height: 50,
-    marginTop: 20,
+    marginTop: 25,
+    top:100,
+    shadowColor: '#000', 
+    shadowOffset: {
+      width: 0, height: 2
+    
+
+  },
+  shadowOpacity: 0.2,
+  shadowRadius: 8,
+  elevation: 5
+  
 
 
 
 
   },
+  button_ir2: {
+    
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    alignItems: 'center',
+    width: 200,
+    height: 50,
+    marginTop: 25,
+    top:100,
+    shadowColor: '#000',
+    shadowOffset: {
+    width: 0,
+    height: 9,
+    
+
+  },
+  shadowOpacity:  0.5,
+  shadowRadius: 9.22,
+  elevation: 12
+  
+    }
 
 
 

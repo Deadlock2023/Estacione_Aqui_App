@@ -23,7 +23,7 @@ const altura = Dimensions.get("screen").height
 // const fundo = require('../../assets/imgs/fundo.png')
 // const fundo_marrom = require('../../assets/imgs/fundomarrom.jpg')
 
-const fundo_claro3 = require('../../assets/imgs/fundo_claro3.jpg')
+const fundo_claro3 = require('../../assets/imgs/FundoCadastrologin.png')
 const fundo_escuro3 = require('../../assets/imgs/fundo_escuro3.jpg')
 const logo = require('../../assets/imgs/EstacioneAqui(2).png')
 
@@ -185,9 +185,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: '#f5f5f5',
     fontSize: 20,
-    borderColor: 'gray',
-    fontFamily:'opensans',
-
+    borderColor: 'transparent',
+  
 
   },
   button_logar: {
@@ -198,12 +197,22 @@ const styles = StyleSheet.create({
     width: 250,
     height: 60,
     marginTop: 25,
+    shadowColor: '#000', 
+    shadowOffset: {
+      width: 0, height: 2
+    
+
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 8,
+  elevation: 5
+  
 
   },
 
   view_branca:{
     backgroundColor:'white',
-    borderWidth:1,
+
     height:680,
     width:largura,
     marginTop:155,
