@@ -102,7 +102,7 @@ const [email, setEmail] = useState('');
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     return (
         <View style={styles.container}>
-            <View style={{backgroundColor:red}}></View>
+            <View style={{backgroundColor:'red',}}></View>
             <Text style={styles.greeting}> {`${saudacao()}, ${login ? login : 'Carregando...'}`}!</Text>
 
             {/* Localização e Hora */}

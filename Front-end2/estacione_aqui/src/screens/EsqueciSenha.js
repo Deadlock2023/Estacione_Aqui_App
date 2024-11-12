@@ -63,7 +63,7 @@ const EsqueceuSenha = ({ navigation }) => {
  
     const borderColorInterpolated = borderColor.interpolate({
         inputRange: [0, 1],
-        outputRange: ['#D2F0EE', '#D2F0EE'],
+        outputRange: ['#000000', '#000000'],
     });
  
     return (
@@ -98,17 +98,17 @@ const EsqueceuSenha = ({ navigation }) => {
  
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#D2F0EE',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: height *  0.9,
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
  
     },
     container_2: {
-        backgroundColor: '#73D2C0',
+        backgroundColor: '#fffdfd',
         width: width ,
         height: height *  0.65 ,
+        bottom:-80,
         alignItems: 'center',
         paddingVertical: "20%",
         borderTopLeftRadius: 45,

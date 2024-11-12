@@ -60,7 +60,7 @@ const FaleConosco = () => {
         <Image style={styles.IconeApp} source={Icone}/>
         <View style={styles.container3}>
         <Text style={styles.textoTitulo}>Fale Conosco</Text>
-        <Text style={{fontSize:15,fontWeight: 'bold'}}>Nossas Redes Sociais para contato</Text>
+        <Text style={{fontSize:15,fontWeight: 'bold'}}>Nossos meios de comunicação:</Text>
         </View>
       </View>
 

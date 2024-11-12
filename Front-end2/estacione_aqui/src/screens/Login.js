@@ -105,19 +105,20 @@ const Login = () => {
       <Image source={logo} onPress={()=> navigation.navigate('Menu')} style={{height:150, width:150,marginTop:-70, }}/>
 
     
-      <Texto texto={'Seja bem-vindo(a) Novamente!\n'} fonte={'opensans'}  tamanhoFonte={40} />
+      <Texto texto={'Seja bem-vindo(a) Novamente!\n'}   tamanhoFonte={40} />
       <TextInput placeholder='Digite seu Login:' style={[styles.input, {marginTop:-20}]} onChangeText={setLogin} value={login} />
       <TextInput placeholder='Digite sua Senha:' style={[styles.input, {marginTop:25}]}onChangeText={setSenha} value={senha} />
+      <Pressable onPress={EsqueceuSenha}>
+            <Text style={{color:'blue', fontSize:15, left:-100,top:10,}}>Esqueci a senha</Text>
+        </Pressable>
     <TouchableOpacity style={styles.button_logar}  onPress={()=>verificarLogin(login, senha)} >
-    <Texto texto={'Login'} mt={10} corTexto={'white'} tamanhoFonte={25} fonte={'opensans'} />
+    <Texto texto={'Login'} mt={10} corTexto={'white'} tamanhoFonte={25}  />
     </TouchableOpacity>
     </View>
     <View style={{flexDirection:'row', marginTop:-185}}>
-          <Texto texto={'Novo por aqui? '} tamanhoFonte={10}  fonte={'opensans'}/>
-        <Text onPress={()=> navigation.navigate('Cadastro')} style={{color:'blue', fontSize:10, fontFamily:'opensans'}}>Cadastre-se</Text>
-        <Pressable onPress={EsqueceuSenha}>
-            <Text style={{color:'blue', fontSize:10, left:15}}>Esqueci a senha</Text>
-        </Pressable>
+          <Texto texto={'Novo por aqui? '} tamanhoFonte={18} />
+        <Text onPress={()=> navigation.navigate('Cadastro')} style={{color:'blue', fontSize:18}}>Cadastre-se</Text>
+        
         
         </View>
 

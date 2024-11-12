@@ -118,12 +118,12 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#D2F0EE',
+    backgroundColor: '#e9e9e9',
     alignItems: 'center',
     justifyContent: 'center',
   },
   container_2: {
-    backgroundColor: '#73D2C0',
+    backgroundColor: '#ffffff',
     width: width ,
     height: height *  0.65 ,
     alignItems: 'center',

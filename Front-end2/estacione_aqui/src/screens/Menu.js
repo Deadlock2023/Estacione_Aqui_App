@@ -69,11 +69,11 @@ export default function Menu() {
       <Image source={logo} style={{ height: 200, width: 200, bottom:-90, }} />
        
         <TouchableOpacity style={styles.button_ir2} onPress={() => navigation.navigate('Login')}>
-          <Texto texto={"Fazer login"}  corTexto={'black'} tamanhoFonte={27} mt={6} />
+          <Texto texto={"Login"}  corTexto={'black'} tamanhoFonte={27} mt={6} />
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button_ir} onPress={() => navigation.navigate('Cadastro')}>
-          <Texto texto={"Se cadastrar"}  corTexto={'white'} tamanhoFonte={27} mt={6}></Texto>
+          <Texto texto={"Cadastra-se"}  corTexto={'white'} tamanhoFonte={27} mt={6}></Texto>
         </TouchableOpacity>
         <Text style={[styles.identificar_text2, {alignSelf:'flex-end', top:120, right:10,}]}  onPress={()=> navigation.navigate('FaleConosco')}>(Fale Conosco)</Text>
 

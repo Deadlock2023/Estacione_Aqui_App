@@ -38,7 +38,7 @@ const SettingsScreen = () => {
         style={styles.background}
       />
        <AntDesign style={{marginTop:45,alignSelf:'flex-start',left:2  }} onPress={() => navigation.navigate('TelaPrincipal')} name="arrowleft"  size={30} color="black" />
-        <Text>Exit</Text>
+        {/* <Text>Exit</Text> */}
       <View style={styles.Perfil}>
         <Image source={require('../../assets/imgs/Perfil.png')} style={styles.IconePerfil} />
         <Text style={{ fontSize: 20, bottom: 60 }}>{login ? login : 'Carregando...'}</Text>

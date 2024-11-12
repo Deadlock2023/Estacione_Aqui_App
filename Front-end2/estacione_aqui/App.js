@@ -71,7 +71,7 @@ const TabBarIcon = ({ focused, source }) => {
 function MainTabNavigator() {
   return (
     <Tab.Navigator
-      initialRouteName="Mapa"
+      initialRouteName="TelaPrincipal"
       screenOptions={({ route }) => ({
         showLabel: false,
         tabBarStyle: {
