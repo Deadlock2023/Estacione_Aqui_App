@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   animation: {
-    width: largura + 10,
-    height: altura + 10,
+    width: largura + 33,
+    height: altura + 33,
   },
 });
  

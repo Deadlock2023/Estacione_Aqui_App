@@ -21,7 +21,7 @@ const Zap = require('../../assets/imgs/Whatsapp.png')
 const Insta = require('../../assets/imgs/Instagram.png')
 const Icone = require('../../assets/imgs/EstacioneAqui(2).png')
 // const Background = require('../../assets/imgs/Fundo.jpg')
-const fundo_claro4 = require('../../assets/imgs/D3.png')
+const fundo_claro4 = require('../../assets/imgs/FundoDark.png')
 const fundo_escuro4 = require('../../assets/imgs/fundo_escuro4.jpg')
 
 
@@ -112,8 +112,9 @@ const styles = StyleSheet.create({
   imagem: {
     height: 40,
     width: 40,
-    marginLeft:70,
+    marginLeft:50,
     padding: 20,
+    
     
   },
   contatos: {
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'rgba(0,0,0,0.3)'
+    left:0.5
   },
   container3 : {
     backgroundColor:'#c3d2d5',

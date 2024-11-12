@@ -6,7 +6,7 @@ import { TextoInput } from '../components/TextoB';
 
  
 const { width, height } = Dimensions.get('window');
-const rota = "http://192.168.107.132:3292";
+const rota = "http://10.111.9.55:3292";
  
 export default function RedefinirSenha() {
   const navigation = useNavigation();

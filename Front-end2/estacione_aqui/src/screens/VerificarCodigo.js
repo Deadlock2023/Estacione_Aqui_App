@@ -6,7 +6,7 @@ import axios from 'axios';
 const { width, height } = Dimensions.get('window');
  
 const VerificarCodigo = ({ navigation, route }) => {
-    const rota = "http://192.168.107.132:3292"; // Certifique-se de que esta URL está correta
+    const rota = "http://10.111.9.55:3292"; // Certifique-se de que esta URL está correta
     const [codigo, setCodigo] = useState('');
     const [isFocused, setIsFocused] = useState(false);
     const [fadeAnim] = useState(new Animated.Value(0));

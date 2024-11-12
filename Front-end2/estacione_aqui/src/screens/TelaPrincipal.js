@@ -89,11 +89,21 @@ const [email, setEmail] = useState('');
             navigation.navigate('MainApp'); // Navega para o layout principal (App.js)
         }, 500);
     };
-
+    const saudacao = () => {
+        const horaAtual = new Date().getHours();
+        if (horaAtual >= 6 && horaAtual < 12) {
+            return 'Bom dia';
+        } else if (horaAtual >= 12 && horaAtual < 18) {
+            return 'Boa tarde';
+        } else {
+            return 'Boa noite';
+        }
+    };
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     return (
         <View style={styles.container}>
-            {/* Saudação */}
-            <Text style={styles.greeting}>BOM DIA,{login ? login : 'Carregando...'}</Text>
+            <View style={{backgroundColor:red}}></View>
+            <Text style={styles.greeting}> {`${saudacao()}, ${login ? login : 'Carregando...'}`}!</Text>
 
             {/* Localização e Hora */}
             <View style={styles.locationContainer}>
@@ -134,11 +144,11 @@ const [email, setEmail] = useState('');
         </View>
     );
 };
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#012943', // Fundo azul
+        backgroundColor: '#909da7', // Fundo azul
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,

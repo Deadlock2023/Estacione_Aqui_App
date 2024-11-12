@@ -14,7 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import EsqueceuSenha from './EsqueciSenha';
 
 
-const api = "10.111.9.45"
+const api = "10.111.9.55"
 
 const largura = Dimensions.get("screen").width
 

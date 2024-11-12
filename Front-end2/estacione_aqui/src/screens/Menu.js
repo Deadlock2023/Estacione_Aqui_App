@@ -61,8 +61,8 @@ export default function Menu() {
     <ImageBackground source={imagem} style={{ width: largura, height: altura }}>
       {/* switch */}
       <View style={{ flexDirection: 'row', justifyContent: 'flex-end', }}>
-        <Texto tamanhoFonte={18}  texto={'Ativar modo escuro'} corTexto={fonte} mt={50}></Texto>
-        <Switch value={Modo} style={{ marginTop: 45, marginRight:10, marginLeft:5, transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }} onValueChange={onToggleSwitch} />
+        <Texto tamanhoFonte={18}  texto={'Ativar modo escuro'} corTexto={"black"} mt={55}></Texto>
+        <Switch value={Modo} style={{ marginTop: 45, marginRight:1, marginLeft:-5, transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }} onValueChange={onToggleSwitch} />
         {/* switch */}
       </View>
       <View style={{ alignContent: 'center', alignItems: 'center', height: altura, width: largura, marginTop:50}}>
