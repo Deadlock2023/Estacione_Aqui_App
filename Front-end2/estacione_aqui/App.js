@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Image, View } from 'react-native';
+import { Image, View,Text } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring,withTiming } from 'react-native-reanimated';
 import 'react-native-gesture-handler';
 
 // IMPORT DAS TELAS
@@ -25,45 +25,47 @@ import RedefinirSenha from "./src/screens/RedefinirSenha";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-// Ícones animados para o Tab Navigator
-const TabBarIcon = ({ focused, source }) => {
-  const scale = useSharedValue(1);
-  const translateY = useSharedValue(0);
+  // Ícones animados para o Tab Navigator
+  const TabBarIcon = ({ focused, source }) => {
+    const scale = useSharedValue(1);
+    const translateY = useSharedValue(0);
 
-  React.useEffect(() => {
-    scale.value = withSpring(focused ? 2 : 1, {
-      damping: 2,
-      stiffness: 150,
-    });
-    translateY.value = withSpring(focused ? -10 : 0, {
-      damping: 2,
-      stiffness: 150,
-    });
-  }, [focused]);
+    React.useEffect(() => {
+      scale.value = withSpring(focused ? 2 : 1, {
+        damping: 2,
+        stiffness: 150,
+      });
+      translateY.value = withSpring(focused ? -10 : 0, {
+        damping: 2,
+        stiffness: 150,
+      });
+    }, [focused]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      { scale: scale.value },
-      { translateY: translateY.value },
-    ],
-  }));
+    const animatedStyle = useAnimatedStyle(() => ({
+      transform: [
+        { scale: scale.value },
+        { translateY: translateY.value },
+      ],
+    }));
 
   return (
     <Animated.View style={animatedStyle}>
       <View
         style={{
-          backgroundColor: 'black',
+          backgroundColor: '#191918',
           width: 40,
           height: 40,
           borderRadius: 71.5,
           justifyContent: 'center',
           alignItems: 'center',
-          borderColor: 'black',
+          borderColor: '#191918',
         }}
       >
-        <Image source={source} style={{ width: 30, height: 30, backgroundColor: 'black', borderRadius: 30 }} />
+        <Image source={source} style={{ width: 80, height: 70, backgroundColor: 'transparent', borderRadius: 30 }} />
+        
       </View>
     </Animated.View>
+    
   );
 };
 
@@ -76,32 +78,34 @@ function MainTabNavigator() {
         showLabel: false,
         tabBarStyle: {
           position: 'absolute',
-          bottom: 30,
+          bottom: 40,
           elevation: 0,
-          left: 20,
-          right: 20,
-          backgroundColor: 'black',
-          borderRadius: 15,
+          left: 70,
+          right: 70,
+          backgroundColor: '#191918',
+          borderRadius: 30,
           height: 70,
           paddingBottom: 10,
+          shadowColor:  'black',
           shadowOffset: {
             width: 0,
-            height: 12,
+            height: 10,
           },
           shadowOpacity: 0.1,
           shadowRadius: 10,
+        
         },
         tabBarIcon: ({ focused }) => {
           let iconSource;
           switch (route.name) {
             case 'Perfil':
-              iconSource = require('./assets/imgs/Perfil3.png');
+              iconSource = require('./assets/imgs/PerfilNovo.png');
               break;
             case 'Mapa':
-              iconSource = require('./assets/imgs/carro.png');
+              iconSource = require('./assets/imgs/MapaNovo.png');
               break;
             case 'Home':
-              iconSource = require('./assets/imgs/home.png');
+              iconSource = require('./assets/imgs/EstacionamentosNovo.png');
               break;
             default:
               iconSource = null;
@@ -124,7 +128,7 @@ export default function App() {
       <Stack.Navigator>
 
         {/* Telas anteriores do seu app */}
-        
+        <Stack.Screen name="MainApp" component={MainTabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name='Splash' component={SplachScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Menu' component={Menu} options={{ headerShown: false }} />
         <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
@@ -139,7 +143,7 @@ export default function App() {
         <Stack.Screen name="TelaPrincipal" component={TelaPrincipal} options={{ headerShown: false }} />
 
         {/* Tela com barra de navegação (layout principal do app) */}
-        <Stack.Screen name="MainApp" component={MainTabNavigator} options={{ headerShown: false }} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

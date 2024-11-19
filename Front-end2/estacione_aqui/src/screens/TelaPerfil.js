@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, Button } from 'react-native';
+import { View, Text, StyleSheet, Image, Button, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
+import { Avatar, Card, IconButton } from 'react-native-paper';
+import Ionicons from 'react-native-vector-icons/Ionicons'; 
 
 
 function SettingsScreen() {
@@ -65,7 +67,7 @@ function SettingsScreen() {
   return (
     <View style={styles.container}> 
       <LinearGradient
-        colors={['#051f66', '#051f66', '#051f66', 'transparent']}
+        colors={['#080E19', '#080E19', '#080E19', 'transparent']}
         style={styles.background}
       />
   <AntDesign style={{marginTop:45, alignSelf:'flex-start',left:2  }} onPress={() => navigation.navigate('Menu')} name="arrowleft"  size={30} color="black" />
@@ -73,8 +75,12 @@ function SettingsScreen() {
         <Image
           source={profileImage ? { uri: profileImage } : require('../../assets/imgs/Perfil.png')}
           style={styles.IconePerfil}
+          
         />
-        <Button title="Alterar Imagem de Perfil" onPress={pickImage} />
+        <TouchableOpacity onPress={pickImage}>
+          <Ionicons name="camera" size={30} color="black"  style={{top:  -100, left: 50}}/>
+        </TouchableOpacity>  
+        
         <Text style={{ fontSize: 20, bottom: 60 }}>{login ? login : 'Carregando...'}</Text>
         <Text style={{ fontSize: 20, bottom: 20 }}>Detalhes da Conta</Text>
       </View>
@@ -94,10 +100,10 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     height: 300,
-    backgroundColor: 'blue',
+    backgroundColor: '#080E19',
   },
   Perfil: {
-    backgroundColor: 'white',
+    backgroundColor: '#ececec',
     height: '90%',
     width: '100%',
     top: 140,
