@@ -12,14 +12,14 @@ import Menu from "./src/screens/Menu";
 import FaleConosco from "./src/screens/FaleConosco";
 import Login from "./src/screens/Login";
 import Cadastro from "./src/screens/Cadastro";
-import TelaPrincipal from "./src/screens/TelaPrincipal";
-import MapScreen from './src/screens/TelaMapa'; // Tela Mapa
-import SettingsScreen from './src/screens/TelaPerfil';
-import HomeScreen from './src/screens/TelaHome';
+import TelaPrincipal from "./src/screens/TelaInterface";
+import LocaisCards from './src/screens/TelaLocais';
 import SplachScreen from "./src/screens/Splash";
-import EsqueceuSenha from "./src/screens/EsqueciSenha";
 import VerificarCodigo from "./src/screens/VerificarCodigo";
 import RedefinirSenha from "./src/screens/RedefinirSenha";
+import EsqueciSenha from "./src/screens/EsqueciSenha";
+import TelaMapa from "./src/screens/TelaMapa";
+import TelaPerfil from "./src/screens/TelaPerfil";
 
 // Criando o Tab Navigator para a parte inferior da tela
 const Tab = createBottomTabNavigator();
@@ -73,7 +73,7 @@ const Stack = createStackNavigator();
 function MainTabNavigator() {
   return (
     <Tab.Navigator
-      initialRouteName="TelaMapa"
+      initialRouteName="SettingsScreen"
       screenOptions={({ route }) => ({
         showLabel: false,
         tabBarStyle: {
@@ -98,13 +98,16 @@ function MainTabNavigator() {
         tabBarIcon: ({ focused }) => {
           let iconSource;
           switch (route.name) {
+            case 'Home':
+              iconSource = require('./assets/imgs/PerfilNovo.png');
+              break;
             case 'Perfil':
               iconSource = require('./assets/imgs/PerfilNovo.png');
               break;
             case 'Mapa':
               iconSource = require('./assets/imgs/MapaNovo.png');
               break;
-            case 'Home':
+            case 'Locais':
               iconSource = require('./assets/imgs/EstacionamentosNovo.png');
               break;
             default:
@@ -114,9 +117,12 @@ function MainTabNavigator() {
         },
       })}
     >
-      <Tab.Screen name="Perfil" component={SettingsScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Mapa" component={MapScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Home" component={TelaPrincipal} options={{ headerShown: false }} />
+      <Tab.Screen name="Mapa" component={TelaMapa} options={{ headerShown: false }} />
+      <Tab.Screen name="Locais" component={LocaisCards} options={{ headerShown: false }} />
+      <Tab.Screen name="Perfil" component={TelaPerfil} options={{ headerShown: false }} />
+    
+
     </Tab.Navigator>
   );
 }
@@ -134,9 +140,10 @@ export default function App() {
         <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
         <Stack.Screen name='Cadastro' component={Cadastro} options={{ headerShown: false }} />
         <Stack.Screen name='FaleConosco' component={FaleConosco} options={{ headerShown: false }} />
-        <Stack.Screen name="Esqueceu Senha" component={EsqueceuSenha} options={{ headerShown: false }}/> 
+        <Stack.Screen name="EsqueciSenha" component={EsqueciSenha} options={{ headerShown: false }}/> 
         <Stack.Screen name="Verificar codigo" component={VerificarCodigo} options={{ headerShown: false }}/> 
         <Stack.Screen name="Redefinir Senha" component={RedefinirSenha} options={{ headerShown: false }}/> 
+        
     
 
         {/* Tela inicial (print que você mandou) */}

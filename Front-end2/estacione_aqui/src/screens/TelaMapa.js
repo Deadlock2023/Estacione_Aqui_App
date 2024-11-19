@@ -22,7 +22,7 @@ const locais = [
   { id: 3, latitude: -22.1250, longitude: -51.3800, title: 'Local 3' },
 ];
 
- function MapScreen() {
+ function TelaMapa() {
   const [searchQuery, setSearchQuery] = useState('');
   const [region, setRegion] = useState(Coordenadas);
   const [markerLocation, setMarkerLocation] = useState(null);
@@ -171,4 +171,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MapScreen
+export default TelaMapa;

@@ -84,13 +84,6 @@ app.post("/login", async (req, res) => {
     const sql =
     `SELECT * FROM usuarios WHERE login = LOWER("${login}") AND senha = "${hash}" `
     
-    /*` SELECT c.id, 
-    CASE 
-          WHEN c.senha = SHA2('${hash}',256) THEN 'True' 
-          ELSE 'False' 
-      END AS senha_corresponde
-  FROM cadastro c 
-  WHERE c.id = (select   c1.id FROM cadastro c1 WHERE c1.login = '${login}')`*/
 
     const [linha] = await conexao.execute(sql)
 
@@ -221,8 +214,58 @@ app.post('/reset-password', async (req, res) => {
   }
 });
 
+/////////////////////// ROTA PARA MONTAR CARDS NO APP     ///////////////////////////////////////////////////
+
+app.get('/montarcards', async (req, res) => {
+  try {
+      const conexao = await pool.getConnection()
+      const sql = `SELECT nome, url_imagem, telefone, horario_abertura,horario_fechamento, endereco_nome FROM estabelecimentos`
+      const [linhas] = await conexao.execute(sql)
+      conexao.release()
+      res.json(linhas)
+  
+  } catch (error) {
+      console.log(`o erro que ocorreu foi : ${error}`)
+      res.send(500).json({error:"deu alguem erro na busca"})
+  }
+  });
+app.get('/localizar_estabelecimentos', async (req, res) => {
+  try {""
+      const conexao = await pool.getConnection()
+      const sql = `SELECT nome, localizacao FROM estabelecimentos`
+      const [linhas] = await conexao.execute(sql)
+      conexao.release()
+      res.json(linhas)
+  
+  } catch (error) {
+      console.log(`o erro que ocorreu foi : ${error}`)
+      res.send(500).json({error:"deu alguem erro na busca"})
+  }
+  });
+
+
 
 // Iniciar o servidor
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
+   /*` SELECT c.id, 
+    CASE 
+          WHEN c.senha = SHA2('${hash}',256) THEN 'True' 
+          ELSE 'False' 
+      END AS senha_corresponde
+  FROM cadastro c 
+  WHERE c.id = (select   c1.id FROM cadastro c1 WHERE c1.login = '${login}')`*/
+
+
+
+  
+    // Query para pegar apenas os campos nome e email
+//     const sql = await pool.query('SELECT nome, url_imagem, telefone, horario_abertura,horario_fechamento, endereco_nome FROM estabelecimentos');
+  
+//     res.status(200).json(sql.rows);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Erro ao buscar dados' });
+//   }
+// });

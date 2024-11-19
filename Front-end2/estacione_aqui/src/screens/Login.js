@@ -9,9 +9,10 @@ import input from '../components/InputText';
 import { Switch } from 'react-native-paper'
 import Input from '../components/InputText';
 import { AntDesign } from '@expo/vector-icons';
-import TelaPrincipal from './TelaPrincipal';
+import TelaPrincipal from './TelaInterface';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import EsqueceuSenha from './EsqueciSenha';
+import SettingsScreen from './TelaPerfil';
 
 
 const api = "10.111.9.55"
@@ -84,7 +85,7 @@ const Login = () => {
         }
   
         const data = await response.json();
-        navigation.navigate('TelaPrincipal', { user: data.login });
+        navigation.navigate('SettingsScreen', { user: data.login });
 
         await AsyncStorage.setItem('userData', JSON.stringify({ login, senha }));
 

@@ -3,14 +3,22 @@ import { Avatar, Card, IconButton } from 'react-native-paper';
 import { View, Text, StyleSheet } from 'react-native';
 
 
-export default function EstacionamentoCard() {
+
+
+
+
+function LocaisCards() {
   return (
     <View style={styles.card}>
       <View style={styles.imagePlaceholder} />
       <View style={styles.textContainer}>
         <Text style={styles.title}>Estacionamento</Text>
-        <Text style={styles.subtitle}>Telefone</Text>
-        <Text style={styles.subtitle}>Localização</Text>
+        <Text style={styles.subtitle}>Telefone:</Text>
+        <Text style={styles.subtitle}>Localização:</Text>
+        <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+        <Text style={{fontSize:12}}>Horário Abertura:</Text>
+        <Text style={{fontSize:12}}>Horário Fechamento:</Text>
+        </View>
       </View>
     </View>
   );
@@ -20,7 +28,7 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5', // cor do fundo do card
+    backgroundColor: '#F5F5F5',
     borderRadius: 10,
     padding: 10,
     shadowColor: '#000',
@@ -50,3 +58,5 @@ const styles = StyleSheet.create({
     color: '#666',
   },
 });
+
+export default LocaisCards

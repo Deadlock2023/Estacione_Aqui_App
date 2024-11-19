@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MapScreen from './TelaMapa';
 import SettingsScreen from './TelaPerfil';
-import HomeScreen from './TelaHome';
+import locaisCards from './TelaLocais';
 
 const largura = Dimensions.get('screen').width;
 
@@ -90,9 +90,9 @@ const TelaPrincipal = () => {
 
   const saudacao = () => {
     const horaAtual = new Date().getHours();
-    if (horaAtual >= 6 && horaAtual < 12) return 'Bom dia';
-    else if (horaAtual >= 12 && horaAtual < 18) return 'Boa tarde';
-    else return 'Boa noite';
+    if (horaAtual >= 6 && horaAtual < 12) return 'Bom Dia';
+    else if (horaAtual >= 12 && horaAtual < 18) return 'Boa Tarde';
+    else return 'Boa Noite';
   };
 
   return (
@@ -110,41 +110,7 @@ const TelaPrincipal = () => {
       <View style={styles.weatherInfo}>
         <Text style={styles.largeTemperatureText}>{temperatura !== null ? `${temperatura}°C` : 'Carregando...'}</Text>
       </View>
-      <Tab.Navigator
-        initialRouteName="Mapa"
-        screenOptions={({ route }) => ({
-          tabBarShowLabel: false,
-          tabBarStyle: {
-            position: 'absolute',
-            bottom: 30,
-            backgroundColor: 'black',
-            borderRadius: 15,
-            height: 100,
-            width: largura,
-          },
-          tabBarIcon: ({ focused }) => {
-            let iconSource;
-            switch (route.name) {
-              case 'Perfil':
-                iconSource = require('../../assets/imgs/home.png');
-                break;
-              case 'Mapa':
-                iconSource = require('../../assets/imgs/carro.png');
-                break;
-              case 'Home':
-                iconSource = require('../../assets/imgs/Perfil3.png');
-                break;
-              default:
-                iconSource = null;
-            }
-            return <TabBarIcon source={iconSource} focused={focused} />;
-          },
-        })}
-      >
-        <Tab.Screen name="Perfil" component={SettingsScreen} options={{ headerShown: false }} />
-        <Tab.Screen name="Mapa" component={MapScreen} options={{ headerShown: false }} />
-        <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      </Tab.Navigator>
+      
     </View>
   );
 };
@@ -152,7 +118,7 @@ const TelaPrincipal = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#c8c8c8',
+    backgroundColor: '#b31d1d',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
@@ -170,11 +136,11 @@ const styles = StyleSheet.create({
     top: -150,
   },
   locationText: {
-    color: '#a14141',
+    color: '#efff14',
     fontSize: 25,
   },
   timeText: {
-    color: '#d33232',
+    color: '#18f7ff',
     fontSize: 25,
   },
   mapContainer: {
@@ -188,15 +154,15 @@ const styles = StyleSheet.create({
   },
   largeTemperatureText: {
     fontSize: 25,
-    color: '#ff4c4c',
+    color: '#3c3ce9',
   },
   viewcima: {
-    backgroundColor: '#230d66',
+    backgroundColor: '#490dfd',
     width: largura,
     alignItems: 'center',
     flexDirection: "row",
     height: 70,
-    top: -195,
+    top: -10,
     justifyContent: 'center',
   },
   textcima: {
@@ -210,6 +176,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     top: -140,
   },
+  tabnav:{
+    backgroundColor:"#f10a0a"
+  }
 });
 
 export default TelaPrincipal;

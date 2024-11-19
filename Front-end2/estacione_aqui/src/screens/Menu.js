@@ -27,7 +27,7 @@ const largura = Dimensions.get('screen').width
 
 const altura = Dimensions.get('screen').height
 
-export default function Menu() {
+function Menu() {
   const navigation = useNavigation()
 
 
@@ -51,10 +51,6 @@ export default function Menu() {
       
     }
   }
-
-
-
-
 
   return (
 
@@ -107,9 +103,6 @@ const styles = StyleSheet.create({
   shadowOpacity: 0.2,
   shadowRadius: 8,
   elevation: 5
-  
-
-
 
 
   },
@@ -136,9 +129,8 @@ const styles = StyleSheet.create({
   
     }
 
-
-
-
 })
+
+export default Menu;
 
 

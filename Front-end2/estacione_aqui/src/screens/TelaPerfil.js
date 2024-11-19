@@ -10,7 +10,7 @@ import { Avatar, Card, IconButton } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons'; 
 
 
-function SettingsScreen() {
+function TelaPerfil() {
   const [login, setUsuario] = useState('');
   const [profileImage, setProfileImage] = useState(null);
  
@@ -70,7 +70,7 @@ function SettingsScreen() {
         colors={['#080E19', '#080E19', '#080E19', 'transparent']}
         style={styles.background}
       />
-  <AntDesign style={{marginTop:45, alignSelf:'flex-start',left:2  }} onPress={() => navigation.navigate('Menu')} name="arrowleft"  size={30} color="black" />
+  <AntDesign style={{marginTop:45, alignSelf:'flex-start',left:2, color:"#fff" }} onPress={() => navigation.navigate('Menu')} name="arrowleft"  size={30} color="black" />
       <View style={styles.Perfil}>
         <Image
           source={profileImage ? { uri: profileImage } : require('../../assets/imgs/Perfil.png')}
@@ -122,5 +122,5 @@ const styles = StyleSheet.create({
   },
 });
  
-export default SettingsScreen;
+export default TelaPerfil;
  

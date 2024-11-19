@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, TextInput, StyleSheet, Alert, Text, TouchableOpacity, Animated, Dimensions } from 'react-native';
+import { View, Image, TextInput, StyleSheet, Alert, Text, TouchableOpacity, ImageBackground, Animated, Dimensions } from 'react-native';
 import axios from 'axios';
  
 const { width, height } = Dimensions.get('window');
  
-const EsqueceuSenha = ({ navigation }) => {
+
+
+const fundo = require('../../assets/imgs/EstacioneAqui(2).png')
+
+
+const EsqueciSenha = ({ navigation }) => {
     const rota = "http://192.168.107.132:3292"; // Certifique-se de que esta URL está correta
  
     const [email, setEmail] = useState('');
@@ -67,7 +72,10 @@ const EsqueceuSenha = ({ navigation }) => {
     });
  
     return (
-        <Animated.View View style={[styles.container, { opacity: fadeAnim }]}>
+        <Animated.View View style={styles.container}>
+            <Image source={fundo} style={{height:300,width:150, backgroundColor:'#00002e'}}></Image>
+        
+
             {/* <Image style={styles.logo} source={require('../../assets/Imgs/Avatar Home.png')} /> */}
             <View  style={styles.container_2}>
             <Text style={styles.title}>Recuperar Senha</Text>
@@ -99,7 +107,7 @@ const EsqueceuSenha = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#00002e',
     alignItems: 'center',
     justifyContent: 'center',
  
@@ -114,6 +122,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 45,
         borderTopRightRadius: 45,
         shadowColor: '#000',
+        top:-5
       },
     logo: {
         height: 150,
@@ -145,7 +154,7 @@ const styles = StyleSheet.create({
         color: '#000000',
     },
     button: {
-        backgroundColor: '#000000',
+        backgroundColor: '#00002e',
         width: '90%',
         paddingVertical: 12,
         alignItems: 'center',
@@ -167,4 +176,4 @@ const styles = StyleSheet.create({
     },
 });
  
-export default EsqueceuSenha;
+export default EsqueciSenha;
