@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, TextInput, TouchableOpacity, Alert, Image, StyleSheet,Dimensions, Linking } from 'react-native';
+import { View, TextInput, TouchableOpacity, Alert, Image, StyleSheet, Dimensions, Linking } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location'; 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-
-
-const largura = Dimensions.get('screen').width
-const altura = Dimensions.get('screen').height
+const largura = Dimensions.get('screen').width;
+const altura = Dimensions.get('screen').height;
 
 const Coordenadas = {
   latitude: -22.121265,
@@ -16,19 +14,37 @@ const Coordenadas = {
   longitudeDelta: 0.015,
 };
 
-const locais = [
-  { id: 1, latitude: -22.13151, longitude: -51.39025, title: 'Estacionamento 1' },
-  { id: 2, latitude: -22.1200, longitude: -51.3850, title: 'Estacionamento 2' },
-  { id: 3, latitude: -22.1250, longitude: -51.3800, title: 'Local 3' },
-];
-
- function TelaMapa() {
+function TelaMapa() {
   const [searchQuery, setSearchQuery] = useState('');
   const [region, setRegion] = useState(Coordenadas);
   const [markerLocation, setMarkerLocation] = useState(null);
   const [origin, setOrigin] = useState(null);
   const [destination, setDestination] = useState(null);
+  const [locais, setLocais] = useState([]);
   const mapRef = useRef(null);
+
+  // Função para obter as localizações da API
+  const fetchLocations = async () => {
+    try {
+      const response = await fetch('http://192.168.100.14:3292/localizar_estabelecimentos');
+      const data = await response.json();
+
+      // Transformar os dados para coordenadas que o MapView aceita
+      const locaisFormatados = data.map((item, index) => {
+        const [latitude, longitude] = item.localizacao.split(',').map(Number);
+        return {
+          id: index,
+          latitude,
+          longitude,
+          title: item.nome,
+        };
+      });
+
+      setLocais(locaisFormatados);
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível carregar as localizações: ' + error.message);
+    }
+  };
 
   // Função para obter a localização atual do usuário
   async function getLocation() {
@@ -39,8 +55,6 @@ const locais = [
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    console.log(location);
-
     const { latitude, longitude } = location.coords;
     setOrigin({ latitude, longitude });
 
@@ -63,8 +77,9 @@ const locais = [
   }
 
   useEffect(() => {
-    // Inicializar o mapa na posição de Presidente Prudente ou na posição do usuário
-    getLocation(); // Chamando a função getLocation para obter a localização ao carregar
+    // Inicializar mapa com a localização do usuário e carregar locais da API
+    getLocation();
+    fetchLocations();
   }, []);
 
   const handleSearch = async () => {
@@ -92,14 +107,12 @@ const locais = [
       Alert.alert('Erro', 'Não foi possível realizar a busca: ' + error.message);
     }
   };
+
   const openGoogleMaps = (local) => {
     const destinationLatLng = `${local.latitude},${local.longitude}`;
     const url = `https://www.google.com/maps/search/?api=1&query=${destinationLatLng}`;
-      
     Linking.openURL(url).catch(err => console.error('Erro ao abrir o link:', err));
-
   };
-       
 
   return (
     <View style={{ flex: 1 }}>
@@ -118,11 +131,11 @@ const locais = [
             title={local.title}
             onPress={() => {
               setDestination({ latitude: local.latitude, longitude: local.longitude });
-              openGoogleMaps(local); // Abre o Google Maps com o local marcado
+              openGoogleMaps(local);
             }}
           >
             <Image
-              source={require('../../assets/imgs/estacionamento.png')}
+              source={require('../../assets/imgs/Marcadores.png')}
               style={styles.markerImage}
             />
           </Marker>
@@ -142,6 +155,7 @@ const locais = [
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   map: {

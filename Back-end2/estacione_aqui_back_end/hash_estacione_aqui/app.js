@@ -229,6 +229,8 @@ app.get('/montarcards', async (req, res) => {
       res.send(500).json({error:"deu alguem erro na busca"})
   }
   });
+  
+    
 app.get('/localizar_estabelecimentos', async (req, res) => {
   try {""
       const conexao = await pool.getConnection()
