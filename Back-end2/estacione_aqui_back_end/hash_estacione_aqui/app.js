@@ -245,6 +245,35 @@ app.get('/localizar_estabelecimentos', async (req, res) => {
   }
   });
 
+//////Atualizar nome do usuario//////
+app.post('/atualizar-usuario', (req, res) => {
+  const { login, newName } = req.body;
+
+  // Verifique se os dados necessários foram enviados
+  if (!login || !newName) {
+    return res.status(400).json({ error: 'Login e novo nome são obrigatórios!' });
+  }
+
+  // Query SQL para atualizar o nome no banco de dados
+  const query = 'UPDATE usuarios SET nome = ? WHERE login = ?';
+
+  // Executa a query
+  db.query(query, [newName, login], (err, result) => {
+    if (err) {
+      console.error('Erro ao atualizar no banco:', err);
+      return res.status(500).json({ error: 'Erro ao atualizar o nome no banco.' });
+    }
+
+    // Verifica se o registro foi encontrado e atualizado
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Usuário não encontrado.' });
+    }
+
+    res.status(200).json({ message: 'Nome atualizado com sucesso!' });
+  });
+});
+
+//////Foto de perfil/////
 
 
 // Iniciar o servidor

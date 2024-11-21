@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TextInput, ActivityIndicator } from 'react-native';
 
 function LocaisCards() {
   const [estacionamentos, setEstacionamentos] = useState([]);
+  const [filteredEstacionamentos, setFilteredEstacionamentos] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://192.168.100.14:3292/montarcards');
+        const response = await fetch('http://10.111.9.48:3292/montarcards');
         const data = await response.json();
         setEstacionamentos(data);
+        setFilteredEstacionamentos(data); // Inicializa a lista filtrada
       } catch (error) {
         console.error('Erro ao buscar os dados:', error);
       } finally {
@@ -20,6 +23,16 @@ function LocaisCards() {
 
     fetchData();
   }, []);
+
+  const handleSearch = (text) => {
+    setSearchTerm(text);
+
+    // Filtra os estacionamentos pelo nome
+    const filtered = estacionamentos.filter((item) =>
+      item.nome.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredEstacionamentos(filtered);
+  };
 
   if (loading) {
     return (
@@ -31,8 +44,14 @@ function LocaisCards() {
 
   return (
     <View style={styles.container}>
+      <TextInput
+        style={styles.searchBar}
+        placeholder="Pesquisar local..."
+        value={searchTerm}
+        onChangeText={handleSearch}
+      />
       <FlatList
-        data={estacionamentos}
+        data={filteredEstacionamentos}
         renderItem={({ item }) => (
           <View style={styles.card}>
             <Image source={{ uri: item.url_imagem }} style={styles.image} />
@@ -48,6 +67,7 @@ function LocaisCards() {
           </View>
         )}
         keyExtractor={(item) => item.nome}
+        ListEmptyComponent={<Text style={styles.emptyMessage}>Nenhum local encontrado</Text>}
       />
     </View>
   );
@@ -62,6 +82,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  searchBar: {
+    top: 10,
+    height: 50,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    margin: 30,
+    paddingHorizontal: 10,
   },
   card: {
     flexDirection: 'row',
@@ -103,6 +132,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#666',
   },
+  emptyMessage: {
+    textAlign: 'center',
+    color: '#999',
+    marginTop: 20,
+    fontSize: 16,
+  },
 });
+
+
 
 export default LocaisCards;

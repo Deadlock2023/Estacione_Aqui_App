@@ -12,10 +12,11 @@ import { AntDesign } from '@expo/vector-icons';
 import TelaPrincipal from './TelaInterface';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import EsqueceuSenha from './EsqueciSenha';
-import SettingsScreen from './TelaPerfil';
+import TelaPerfil from './TelaPerfil';
+TelaPerfil  
 
 
-const api = "10.111.9.55"
+const api = "10.111.9.48"
 
 const largura = Dimensions.get("screen").width
 
@@ -85,7 +86,7 @@ const Login = () => {
         }
   
         const data = await response.json();
-        navigation.navigate('SettingsScreen', { user: data.login });
+        navigation.navigate('TelaPerfil', { user: data.login });
 
         await AsyncStorage.setItem('userData', JSON.stringify({ login, senha }));
 
