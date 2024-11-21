@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Button, TouchableOpacity,Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImageManipulator from 'expo-image-manipulator';
@@ -8,11 +8,14 @@ import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Avatar, Card, IconButton } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons'; 
+//import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 function TelaPerfil() {
   const [login, setUsuario] = useState('');
   const [profileImage, setProfileImage] = useState(null);
+ 
  
   const navigation = useNavigation();
   useEffect(() => {
@@ -62,7 +65,15 @@ function TelaPerfil() {
     setProfileImage(result.uri); // Atualiza o estado com a imagem manipulada
     await AsyncStorage.setItem('profileImage', result.uri); // Salva a imagem localmente
   };
-
+    //async function logout() {
+     // try {
+      //  await AsyncStorage.removeItem('authToken');
+     //   console.log('Logout efetuado!');
+        
+     // } catch (e) {
+    //    console.error('Erro ao fazer logout:', e);
+      //}
+   // }
  
   return (
     <View style={styles.container}> 
@@ -83,6 +94,12 @@ function TelaPerfil() {
         
         <Text style={{ fontSize: 20, bottom: 60 }}>{login ? login : 'Carregando...'}</Text>
         <Text style={{ fontSize: 20, bottom: 20 }}>Detalhes da Conta</Text>
+        <Pressable
+            //Terminar
+        >
+          <Text>Sair</Text>
+        </Pressable>
+
       </View>
     </View>
   );
