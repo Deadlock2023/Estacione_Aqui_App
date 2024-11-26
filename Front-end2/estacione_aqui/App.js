@@ -98,9 +98,6 @@ function MainTabNavigator() {
         tabBarIcon: ({ focused }) => {
           let iconSource;
           switch (route.name) {
-            case 'Home':
-              iconSource = require('./assets/imgs/PerfilNovo.png');
-              break;
             case 'Perfil':
               iconSource = require('./assets/imgs/PerfilNovo.png');
               break;
@@ -117,7 +114,6 @@ function MainTabNavigator() {
         },
       })}
     >
-      <Tab.Screen name="Home" component={TelaPrincipal} options={{ headerShown: false }} />
       <Tab.Screen name="Mapa" component={TelaMapa} options={{ headerShown: false }} />
       <Tab.Screen name="Locais" component={LocaisCards} options={{ headerShown: false }} />
       <Tab.Screen name="Perfil" component={TelaPerfil} options={{ headerShown: false }} />
@@ -149,7 +145,7 @@ export default function App() {
     
 
         {/* Tela inicial (print que você mandou) */}
-        <Stack.Screen name="TelaPrincipal" component={TelaPrincipal} options={{ headerShown: false }} />
+       
 
         {/* Tela com barra de navegação (layout principal do app) */}
         <Stack.Screen name="MainApp" component={MainTabNavigator} options={{ headerShown: false }} />
