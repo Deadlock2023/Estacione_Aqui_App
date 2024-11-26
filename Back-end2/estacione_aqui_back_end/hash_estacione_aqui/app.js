@@ -4,6 +4,8 @@ const mysql = require("mysql2/promise");
 const bodyparser = require("body-parser");
 const nodemailer = require('nodemailer');
 const { ADDRGETNETWORKPARAMS } = require("dns");
+const multer = require('multer');
+
 
 const app = express();
 const port = 3292;
@@ -274,7 +276,21 @@ app.post('/atualizar-usuario', (req, res) => {
 });
 
 //////Foto de perfil/////
+app.post('/upload', (req, res) => {
+  const { foto } = req.body; // Receber a imagem em Base64
 
+  if (!foto) {
+    return res.status(400).send('O campo "foto" precisa ser uma string Base64.');
+  }
+
+  const query = 'INSERT INTO tabela_usuarios (foto) VALUES (?)';
+  db.query(query, [foto], (err) => {
+    if (err) {
+      return res.status(500).send('Erro ao salvar no banco.');
+    }
+    res.status(200).send('Foto salva com sucesso!');
+  });
+});
 
 // Iniciar o servidor
 app.listen(port, () => {

@@ -11,12 +11,14 @@ import Input from '../components/InputText';
 import { AntDesign } from '@expo/vector-icons';
 import TelaPrincipal from './TelaInterface';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import EsqueceuSenha from './EsqueciSenha';
+import EsqueciSenha from './EsqueciSenha';
 import TelaPerfil from './TelaPerfil';
-TelaPerfil  
 
 
-const api = "10.111.9.48"
+
+
+
+const api = "192.168.100.14"
 
 const largura = Dimensions.get("screen").width
 
@@ -65,12 +67,11 @@ const Login = () => {
     const route = useRoute;
    
 
-    function EsqueceuSenha(){
-      navigation.replace('Esqueceu Senha');
+    function EsqueciSenha(){
+      navigation.replace('EsqueciSenha');
     }
 
     const verificarLogin = async (login, senha) => {
-     
       try {
         const response = await fetch(servidor, {
           method: 'POST',
@@ -79,22 +80,20 @@ const Login = () => {
           },
           body: JSON.stringify({ login, senha }),
         });
-  
-  
+    
         if (!response.ok) {
           throw new Error('Credenciais inválidas');
         }
-  
+    
         const data = await response.json();
-        navigation.navigate('TelaPerfil', { user: data.login });
-
-        await AsyncStorage.setItem('userData', JSON.stringify({ login, senha }));
-
-  
+    
+        // Salva os dados do usuário localmente
+        await AsyncStorage.setItem('userData', JSON.stringify({ login: data.login }));
+    
+        // Navega para a TelaPrincipal
+        navigation.navigate('MainApp');
       } catch (error) {
-       
-        alert("Falha na autenticação, digite a senha ou email corretamente!")
-        return;
+        alert("Falha na autenticação, digite a senha ou email corretamente!");
       }
     };
    
@@ -110,7 +109,7 @@ const Login = () => {
       <Texto texto={'Seja bem-vindo(a) Novamente!\n'}   tamanhoFonte={40} />
       <TextInput placeholder='Digite seu Login:' style={[styles.input, {marginTop:-20}]} onChangeText={setLogin} value={login} />
       <TextInput placeholder='Digite sua Senha:' style={[styles.input, {marginTop:25}]}onChangeText={setSenha} value={senha} />
-      <Pressable onPress={EsqueceuSenha}>
+      <Pressable onPress={EsqueciSenha}>
             <Text style={{color:'blue', fontSize:15, left:-100,top:10,}}>Esqueci a senha</Text>
         </Pressable>
     <TouchableOpacity style={styles.button_logar}  onPress={()=>verificarLogin(login, senha)} >

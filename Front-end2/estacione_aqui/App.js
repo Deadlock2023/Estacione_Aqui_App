@@ -53,15 +53,15 @@ const Stack = createStackNavigator();
       <View
         style={{
           backgroundColor: '#191918',
-          width: 40,
-          height: 40,
+          width: 25,
+          height: 25,
           borderRadius: 71.5,
           justifyContent: 'center',
           alignItems: 'center',
           borderColor: '#191918',
         }}
       >
-        <Image source={source} style={{ width: 80, height: 70, backgroundColor: 'transparent', borderRadius: 30 }} />
+        <Image source={source} style={{ width: 40, height: 20, borderRadius: 30 }} />
         
       </View>
     </Animated.View>
@@ -134,24 +134,28 @@ export default function App() {
       <Stack.Navigator>
 
         {/* Telas anteriores do seu app */}
-        <Stack.Screen name="MainApp" component={MainTabNavigator} options={{ headerShown: false }} />
+        
         <Stack.Screen name='Splash' component={SplachScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Menu' component={Menu} options={{ headerShown: false }} />
         <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
         <Stack.Screen name='Cadastro' component={Cadastro} options={{ headerShown: false }} />
-        <Stack.Screen name='FaleConosco' component={FaleConosco} options={{ headerShown: false }} />
         <Stack.Screen name="EsqueciSenha" component={EsqueciSenha} options={{ headerShown: false }}/> 
+        <Stack.Screen name='FaleConosco' component={FaleConosco} options={{ headerShown: false }} />
         <Stack.Screen name="Verificar codigo" component={VerificarCodigo} options={{ headerShown: false }}/> 
         <Stack.Screen name="Redefinir Senha" component={RedefinirSenha} options={{ headerShown: false }}/> 
         
+        <Stack.Screen name="TelaPerfil" component={TelaPerfil} options={{ headerShown: false }}/> 
+       
     
 
         {/* Tela inicial (print que você mandou) */}
         <Stack.Screen name="TelaPrincipal" component={TelaPrincipal} options={{ headerShown: false }} />
 
         {/* Tela com barra de navegação (layout principal do app) */}
+        <Stack.Screen name="MainApp" component={MainTabNavigator} options={{ headerShown: false }} />
         
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
+
