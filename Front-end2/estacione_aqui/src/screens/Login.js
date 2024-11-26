@@ -18,7 +18,7 @@ import TelaPerfil from './TelaPerfil';
 
 
 
-const api = "192.168.100.14"
+const api = "10.111.9.55"
 
 const largura = Dimensions.get("screen").width
 
