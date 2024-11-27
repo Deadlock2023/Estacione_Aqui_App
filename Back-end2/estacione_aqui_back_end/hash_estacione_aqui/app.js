@@ -1,7 +1,7 @@
 const express = require("express");
 const crypto = require("crypto");
 const mysql = require("mysql2/promise");
-const bodyparser = require("body-parser");
+const bodyparser = require('body-parser');
 const nodemailer = require('nodemailer');
 const { ADDRGETNETWORKPARAMS } = require("dns");
 const multer = require('multer');
@@ -9,6 +9,8 @@ const multer = require('multer');
 
 const app = express();
 const port = 3292;
+app.use(bodyparser.json());
+app.use(express.json({ limit: '1000mb' }));
 
 app.use(express.json());
 
@@ -39,33 +41,29 @@ app.get("/hash", (req, res) => {
 
 });
 
+//----------------------------------------------------------------||----------------------------------------------------------------//
+//   ____________
+//        |          _____               _               _____       _       ___        _        ___    _________   ___     ___
+//        |          |        |         / \             /           / \      |  \      / \      /   \       |      |   \   /   \
+//        |          |___     |        /___\            |          /___\     |   |    /___\     \___        |      |___/  /     \
+//        |          |        |       /     \           |         /     \    |   |   /     \        \       |      | \    \     /
+//        |          |____    |____  /       \          \_____   /       \   |__/   /       \   \___/       |      |  \    \___/
+
 app.post("/cadastrar", async (req, res) => {
   try {
 
+    const { usuario, email, senha } = req.body
 
-    const { usuario, email, login, senha } = req.body
-
-
-    // if(!login){
-    //   res.json({msg:"Todos os campos devem ser preenchidos!"})
-    // }
-    // else if(!senha){
-    //   res.json({msg:"Todos os campos devem ser preenchidos!"})
-
-    // }
     const hash = crypto.createHash("SHA256").update(senha).digest("hex")
-
-    const sql = `INSERT INTO usuarios (usuario, email, login, senha) VALUES (LOWER("${usuario}"), LOWER("${email}"), LOWER("${login}"), "${hash}")`;
-
+    
     const conexao = await pool.getConnection()
+
+    const sql = `INSERT INTO usuarios (usuario, email, senha) VALUES (LOWER("${usuario}"), LOWER("${email}"), "${hash}")`;
 
     const [linha] = await conexao.execute(sql)
 
-    conexao.release()
-
-
     res.json({ msg: "Cadastro realizado!" })
-
+    conexao.release()
 
   } catch (error) {
     console.log(`O erro que ocorreu foi: ${error}`);
@@ -73,30 +71,37 @@ app.post("/cadastrar", async (req, res) => {
   }
 });
 
-// Rota para verificar o login
+//----------------------------------------------------------------||----------------------------------------------------------------//
+//   ____________     
+//        |          _____               _                              ___        
+//        |          |        |         / \                |           /   \      ____     O    |\   |
+//        |          |___     |        /___\               |          /     \    /    \         | \  |
+//        |          |        |       /     \              |          \     /   |   ___    |    |  \ |
+//        |          |____    |____  /       \             |____       \___/     \____/    |    |   \| 
+
 app.post("/login", async (req, res) => {
   try {
 
-    const { login, senha } = req.body
+    const { email, senha } = req.body
 
     const hash = crypto.createHash("SHA256").update(senha).digest("hex")
 
     const conexao = await pool.getConnection()
 
     const sql =
-    `SELECT * FROM usuarios WHERE login = LOWER("${login}") AND senha = "${hash}" `
+    `SELECT * FROM usuarios WHERE email = "${email}" AND senha = "${hash}" `
     
 
     const [linha] = await conexao.execute(sql)
 
     // console.log(linha)
-    conexao.release()
     if (linha.length === 1) {
-      res.status(200).json({msg:"login válido!, bem vindo:", login: `${linha[0].login}`})
+      res.status(200).json({msg:"login válido!, bem vindo:", id: `${linha[0].id}`, usuario: `${linha[0].usuario}`})
     } else {
       res.status(401).json({msg:"Login ou senha inválido!"})
     }
-
+    
+    conexao.release()
   } catch (error) {
     console.error("Erro ao autenticar usuário:", error);
     res.status(500).json({ error: "Erro interno ao processar login" });
@@ -275,24 +280,76 @@ app.post('/atualizar-usuario', (req, res) => {
   });
 });
 
-//////Foto de perfil/////
-app.post('/upload', (req, res) => {
-  const { foto } = req.body; // Receber a imagem em Base64
+//----------------------------------------------------------------||----------------------------------------------------------------//
+//   ____________                                             _____                        ______
+//        |          _____               _                    |    \     ___       ___     |        o   |        _____
+//        |          |        |         / \                   |     |   |   \     /   \    |___         |        |
+//        |          |___     |        /___\                  |____/    |___/    /     \   |        |   |        |___
+//        |          |        |       /     \                 |         | \      \     /   |        |   |        |
+//        |          |____    |____  /       \                |         |  \      \___/    |        |   |____    |____   picture
+
+// Pegando a imagem do banco quando a tela carregar
+
+app.get('/PickImage', async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    console.log(id);
+
+    const conexao = await pool.getConnection();
+    const query = `SELECT foto FROM usuarios WHERE id = ?`;
+
+    let [linhas] = await conexao.execute(query, [id]);
+
+    if (linhas.length > 0) {
+      res.json({ foto: linhas[0].foto });
+    } else {
+      res.status(404).json({ error: "Imagem não encontrada" });
+    }
+
+    conexao.release();
+  } catch (error) {
+    console.log(`O Erro que ocorreu foi: ${error}`);
+    res.status(500).json({ error: "Deu algum erro na conexão" });
+  }
+});
+
+
+
+// Upload da imagem pro banco
+
+app.post('/upload', async (req, res) => {
+  const { id, foto } = req.body;
 
   if (!foto) {
     return res.status(400).send('O campo "foto" precisa ser uma string Base64.');
   }
 
-  const query = 'INSERT INTO tabela_usuarios (foto) VALUES (?)';
-  db.query(query, [foto], (err) => {
-    if (err) {
-      return res.status(500).send('Erro ao salvar no banco.');
-    }
+  try {
+    const conexao = await pool.getConnection();
+    const query = 'UPDATE usuarios SET foto = ? WHERE id = ?';
+
+    await conexao.execute(query, [foto, id]);
+
     res.status(200).send('Foto salva com sucesso!');
-  });
+  } catch (err) {
+    console.error('Erro ao salvar no banco:', err);
+    res.status(500).send('Erro ao salvar no banco.');
+  } finally {
+    conexao.release();
+  }
 });
 
-// Iniciar o servidor
+
+//----------------------------------------------------------------||----------------------------------------------------------------//
+//   _____                       
+//   |    \      ___     __   _______     _
+//   |     |    /   \   |  \     |       / \ 
+//   |____/    /     \  |__/     |      /___\
+//   |         \     /  | \      |     /     \
+//   |          \___/   |  \     |    /       \  
+  
+
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });

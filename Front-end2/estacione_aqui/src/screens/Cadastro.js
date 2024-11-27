@@ -12,11 +12,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 // const api = "10.111.9.19"
-const api = "10.111.9.55"
+const api = "192.168.100.14"
 
 
 const largura = Dimensions.get("screen").width
-
 const altura = Dimensions.get("screen").height
 
 // const fundo = require('../../assets/imgs/fundo.png')
@@ -28,24 +27,11 @@ const fundo_escuro2 = require('../../assets/imgs/Fundo_escuro_j.png')
 const logo = require('../../assets/imgs/EstacioneAqui(2).png')
 
 
-const Cadastro = ({navigation}) => {
+const Cadastro = ({ navigation }) => {
   const [usuario, setUsuario] = useState('');
   const [email, setEmail] = useState('');
-  const [login, setLogin] = useState('');
   const [senha, setSenha] = useState('');
-  
 
-  
-
-//   if (!usuario || !email || !login || !senha) {
-//     console.error('Todos os campos devem ser preenchidos!');
-//     return;
-// }
-
-  // const [fontsLoaded] = useFonts({
-  //   'opensans': require('../../assets/fonts/opensans.ttf'),
-
-  // });
 
   const [imagem, setImagem] = useState(fundo_claro2);
   const [Modo, setModo] = useState(false);
@@ -67,29 +53,30 @@ const Cadastro = ({navigation}) => {
     }
   }
 
-  const cadastrar = async (usuario, email, login, senha) => {
-    if (!usuario || !email || !login || !senha) {
+  const cadastrar = async (usuario, email, senha) => {
+    if (!usuario || !email || !senha) {
       alert("Todos os campos devem ser preenchidos!");
-      return; 
+      return;
     }
-    console.log("usuario: " + usuario , "email: " +email,  "Login: "+login, "senha: "+ senha)
+    console.log("usuario: " + usuario, "email: " + email, "senha: " + senha)
     try {
       const response = await fetch(`http://${api}:3292/cadastrar`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        
-        body: JSON.stringify({usuario, email, login, senha}),
+
+        body: JSON.stringify({ usuario, email, senha }),
       });
- 
+
       if (!response.ok) {
         throw new Error('Credenciais inválidas');
       }
       const data = await response.json();
-        navigation.navigate('Login', { user: data.email });
+      navigation.navigate('Login', { user: data.email });
 
-        await AsyncStorage.setItem('userData', JSON.stringify({  email, login }));
+      await AsyncStorage.setItem('userData', JSON.stringify({ email }));
+      console.log(await AsyncStorage.getItem('userData'))
 
     } catch (error) {
       console.error('Erro ao realizar o cadastro! Erro:', error.message);
@@ -100,22 +87,25 @@ const Cadastro = ({navigation}) => {
   return (
     <View style={styles.container}>
       <ImageBackground source={imagem} style={styles.img_fundo}>
-      <AntDesign style={{marginTop:45, alignSelf:'flex-start',left:2  }} onPress={() => navigation.navigate('Menu')} name="arrowleft"  size={30} color="black" />
+        <AntDesign style={{ marginTop: 45, alignSelf: 'flex-start', left: 2 }} onPress={() => navigation.navigate('Menu')} name="arrowleft" size={30} color="black" />
         <View style={styles.view_branca}>
           <Image source={logo} style={{ height: 150, width: 150, marginTop: -70, }} />
 
-          <Texto texto={'Seja bem-vindo(a)!\n'}  mt={10} tamanhoFonte={40} />
-          <TextInput placeholder='Digite seu nome de Usuário:' style={[styles.input, { marginTop: -30 }]} onChangeText={setUsuario} value={usuario}/>
-           <TextInput placeholder='Digite seu email:' style={[styles.input, { marginTop: 20 }]} onChangeText={setEmail} value={email}/>
-          <TextInput placeholder='Digite seu login:' style={[styles.input, { marginTop: 20 }]} onChangeText={setLogin} value={login}/>
-          <TextInput placeholder='Digite sua senha:' style={[styles.input, { marginTop: 20 }]} onChangeText={setSenha} value={senha}/>
-          <TouchableOpacity style={styles.button_cadastrar} onPress={()=>cadastrar( usuario, email, login, senha)}>
-            <Texto texto={'Cadastrar'} mt={12} corTexto={'white'} tamanhoFonte={25}  onPress={() => navigation.navigate('Login')}  />
+          <Texto texto={'Seja bem-vindo(a)!\n'} mt={10} tamanhoFonte={40} />
+
+          <TextInput placeholder='Digite seu nome de Usuário:' style={[styles.input, { marginTop: -30 }]} onChangeText={setUsuario} value={usuario} />
+          <TextInput placeholder='Digite seu email:' style={[styles.input, { marginTop: 20 }]} onChangeText={setEmail} value={email} />
+          <TextInput placeholder='Digite sua senha:' style={[styles.input, { marginTop: 20 }]} onChangeText={setSenha} value={senha} />
+
+          <TouchableOpacity style={styles.button_cadastrar} onPress={() => cadastrar(usuario, email, senha)}>
+            <Texto texto={'Cadastrar'} mt={12} corTexto={'white'} tamanhoFonte={25} onPress={() => navigation.navigate('Login')} />
           </TouchableOpacity>
+
         </View>
+
         <View style={{ flexDirection: 'row', marginTop: -130 }}>
-          <Texto texto={'Já possui conta? '} tamanhoFonte={20}  />
-          <Text  onPress={() => navigation.navigate('Login')} style={{ color: 'blue', fontSize: 20}}>Fazer Login</Text>
+          <Texto texto={'Já possui conta? '} tamanhoFonte={20} />
+          <Text onPress={() => navigation.navigate('Login')} style={{ color: 'blue', fontSize: 20 }}>Fazer Login</Text>
         </View>
 
 
@@ -131,8 +121,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    position:'absolute',
-    marginTop:-20
+    position: 'absolute',
+    marginTop: -20
   },
 
   input: {
@@ -166,8 +156,8 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     alignItems: 'center',
 
-},
- input: {
+  },
+  input: {
     borderWidth: 3,
     height: 60,
     width: 350,

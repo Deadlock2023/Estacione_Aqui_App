@@ -2,89 +2,97 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Pressable, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as ImageManipulator from 'expo-image-manipulator';
 import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as FileSystem from 'expo-file-system';
+
+let api = "192.168.100.14:3292"
 
 function TelaPerfil() {
   const [login, setUsuario] = useState('');
-  const [profileImage, setProfileImage] = useState(null);
   const [editing, setEditing] = useState(false); // Alterna entre visualização e edição
   const [newName, setNewName] = useState(''); // Armazena o nome editado
   const navigation = useNavigation();
 
+  // dados sendo uma useState da resposta do backEnd sobre o perfil da pessoa
+  const [dados, setDados] = useState({});
+
+
   useEffect(() => {
-    const fetchUserData = async () => {
-      const data = await AsyncStorage.getItem('userData');
-      const savedImage = await AsyncStorage.getItem('profileImage');
-
-      if (data) {
-        const userData = JSON.parse(data);
-        setUsuario(userData.login);
-        setNewName(userData.login); // Inicializa o nome editável
-      }
-
-      if (savedImage) {
-        setProfileImage(savedImage);
-      }
-    };
-
     fetchUserData();
   }, []);
 
-  const pickImage = async () => {
-    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  
+  const fetchUserData = async () => {
+    try {
+      const id = await AsyncStorage.getItem('userData');
+      const response = await fetch(`http://${api}/PickImage?id=${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Credenciais inválidas');
+      }
+      const data = await response.json();
+      setDados(data);
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+    }
+  };
+
+  const pickImageAndConvertToBase64 = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
-      alert('A permissão para acessar a galeria foi negada!');
+      Alert.alert("Permission to access camera roll is required!");
       return;
     }
-  
-    let pickerResult = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-      base64: true, // Certifique-se de que o Base64 está ativado
-    });
-  
-    if (!pickerResult.canceled) {
-      manipulateImage(pickerResult.assets[0]);
+
+    const result = await ImagePicker.launchImageLibraryAsync();
+    if (!result.canceled) {
+      const { uri } = result.assets[0];
+      const base64 = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
+      const base64Image = `data:image/jpeg;base64,${base64}`;
+
+      // Call the function to update the profile picture
+      await updateProfilePicture(base64Image);
     }
   };
-  
 
-  const manipulateImage = async (image) => {
-    const result = await ImageManipulator.manipulateAsync(
-      image.uri,
-      [{ resize: { width: 145, height: 145 } }],
-      { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
-    );
-  
-    setProfileImage(result.uri); // Define a URI para exibição
-    await AsyncStorage.setItem('profileImage', result.uri); // Salva localmente
-    uploadImage(image.base64); // Envia o Base64 da imagem ao servidor
-  };
-
-  const uploadImage = async (base64Image) => {
+  // Função para atualizar a foto de perfil no Back_end
+  const updateProfilePicture = async (base64Image) => {
     try {
-      console.log(base64Image);
-      const response = await axios.post('http://192.168.100.14:3292/upload', {
-        foto: base64Image, // Envia apenas o Base64 da imagem
+      const id = await AsyncStorage.getItem('userData');
+      const response = await fetch(`http://${api}/upload`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: id,
+          foto: base64Image,
+        }),
       });
-  
-      if (response.status === 200) {
-        Alert.alert('Sucesso', 'Imagem enviada com sucesso!');
+
+      if (!response.ok) {
+        throw new Error('Failed to update profile picture');
       }
+
+      alert("Profile picture updated successfully!");
+
+      fetchUserData();
     } catch (error) {
-      console.error('Erro ao enviar imagem:', error);
-      Alert.alert('Erro', 'Não foi possível enviar a imagem.');
+      console.error('Error updating profile picture:', error);
+      Alert.alert("Error updating profile picture");
     }
   };
+
+
+
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem('userToken');
@@ -109,19 +117,19 @@ function TelaPerfil() {
       setUsuario(newName);
 
       // Recupera os dados do AsyncStorage
-      const data = await AsyncStorage.getItem('userData');
+      const data = await AsyncStorage.getItem('userName');
       if (data) {
         // Atualiza apenas o login no objeto salvo
-        const userData = JSON.parse(data);
-        userData.login = newName;
+        const userName = JSON.parse(data);
+        userName.usuario = newName;
 
         // Salva novamente o objeto completo no AsyncStorage
-        await AsyncStorage.setItem('userData', JSON.stringify(userData));
+        await AsyncStorage.setItem('userName', JSON.stringify(userData));
       } else {
         // Se não existir nenhum dado salvo, cria um novo objeto
         await AsyncStorage.setItem(
-          'userData',
-          JSON.stringify({ login: newName })
+          'userName',
+          JSON.stringify({ usuario: newName })
         );
       }
 
@@ -157,19 +165,24 @@ function TelaPerfil() {
       />
 
       <View style={styles.Perfil}>
-        <Image
-          source={profileImage ? { uri: profileImage } : require('../../assets/imgs/Perfil.png')}
-          style={styles.IconePerfil}
-        />
-        <TouchableOpacity onPress={pickImage}>
+
+        {dados.foto ? (
+          <Image
+            source={dados.foto ? { uri: dados.foto } : require('../../assets/imgs/Perfil.png')}
+            style={styles.IconePerfil}
+          />
+        ) : (
+          <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Carregando...</Text>
+        )}
+        <TouchableOpacity onPress={pickImageAndConvertToBase64}>
           <Ionicons name="camera" size={30} color="black" style={{ top: -100, left: 50 }} />
-          
-        
+
+
         </TouchableOpacity>
         <TouchableOpacity onPress={handleLogout}>
-          <MaterialCommunityIcons name="logout" size={24} style={{ marginTop: 45,top: -390, left: 200, color: 'white' }} />
+          <MaterialCommunityIcons name="logout" size={24} style={{ marginTop: 45, top: -390, left: 200, color: 'white' }} />
         </TouchableOpacity>
-      
+
 
         {editing ? (
           <TextInput

@@ -15,33 +15,27 @@ import EsqueciSenha from './EsqueciSenha';
 import TelaPerfil from './TelaPerfil';
 
 
+// ideia boa, execução ruim
 
 
+// const api = "10.111.9.55"
+const api = "192.168.100.14"
 
-const api = "10.111.9.55"
-
+// Pegando o tamanho total da tela do celular
 const largura = Dimensions.get("screen").width
-
 const altura = Dimensions.get("screen").height
-
-// const fundo = require('../../assets/imgs/fundo.png')
-// const fundo_marrom = require('../../assets/imgs/fundomarrom.jpg')
 
 const fundo_claro3 = require('../../assets/imgs/FundoCadastrologin.png')
 const fundo_escuro3 = require('../../assets/imgs/fundo_escuro3.jpg')
 const logo = require('../../assets/imgs/EstacioneAqui(2).png')
 
 const servidor = `http://${api}:3292/login`
-  
+
 
 
 const Login = () => {
   const navigation = useNavigation();
-  // const [fontsLoaded] = useFonts({
-  //   'opensans': require('../../assets/fonts/opensans.ttf'),
 
-  // });
-    
   const [imagem, setImagem] = useState(fundo_claro3);
   const [Modo, setModo] = useState(false);
   let [fonte, setFonte] = useState('#04588c')
@@ -49,7 +43,7 @@ const Login = () => {
 
   const onToggleSwitch = () => {
     setModo(!Modo)
-    if (Modo == false){
+    if (Modo == false) {
       setImagem(fundo_escuro3)
       setFonte('white')
       setCorview('#bdb9b9')
@@ -62,65 +56,69 @@ const Login = () => {
       console.log('Dark Mode')
     }
   }
-    const [login, setLogin] = useState('');
-    const [senha, setSenha] = useState('');
-    const route = useRoute;
-   
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const route = useRoute;
 
-    function EsqueciSenha(){
-      navigation.replace('EsqueciSenha');
-    }
 
-    const verificarLogin = async (login, senha) => {
-      try {
-        const response = await fetch(servidor, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ login, senha }),
-        });
-    
-        if (!response.ok) {
-          throw new Error('Credenciais inválidas');
-        }
-    
-        const data = await response.json();
-    
-        // Salva os dados do usuário localmente
-        await AsyncStorage.setItem('userData', JSON.stringify({ login: data.login }));
-    
-        // Navega para a TelaPrincipal
-        navigation.navigate('MainApp');
-      } catch (error) {
-        alert("Falha na autenticação, digite a senha ou email corretamente!");
+  function EsqueciSenha() {
+    navigation.replace('EsqueciSenha');
+  }
+
+  const verificarLogin = async (email, senha) => {
+    try {
+      const response = await fetch(servidor, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, senha }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Credenciais inválidas');
       }
-    };
-   
+
+      const data = await response.json();
+
+      // Salva os dados do usuário localmente
+      await AsyncStorage.setItem('userData', JSON.stringify({ id: data.id }));
+      await AsyncStorage.setItem('userName', JSON.stringify({ usuario: data.usuario }));
+
+      // Navega para a TelaPrincipal
+      navigation.navigate('MainApp');
+    } catch (error) {
+      alert("Falha na autenticação, digite a senha ou email corretamente!");
+    }
+  };
+
 
   return (
     <View style={styles.container}>
       <ImageBackground source={imagem} style={styles.img_fundo}>
-    <AntDesign style={{marginTop:45,alignSelf:'flex-start',left:2  }} onPress={() => navigation.navigate('Menu')} name="arrowleft"  size={30} color="black" />
-    <View style={styles.view_branca}>
-      <Image source={logo} onPress={()=> navigation.navigate('Menu')} style={{height:150, width:150,marginTop:-70, }}/>
+        <AntDesign style={{ marginTop: 45, alignSelf: 'flex-start', left: 2 }} onPress={() => navigation.navigate('Menu')} name="arrowleft" size={30} color="black" />
+        <View style={styles.view_branca}>
 
-    
-      <Texto texto={'Seja bem-vindo(a) Novamente!\n'}   tamanhoFonte={40} />
-      <TextInput placeholder='Digite seu Login:' style={[styles.input, {marginTop:-20}]} onChangeText={setLogin} value={login} />
-      <TextInput placeholder='Digite sua Senha:' style={[styles.input, {marginTop:25}]}onChangeText={setSenha} value={senha} />
-      <Pressable onPress={EsqueciSenha}>
-            <Text style={{color:'blue', fontSize:15, left:-100,top:10,}}>Esqueci a senha</Text>
-        </Pressable>
-    <TouchableOpacity style={styles.button_logar}  onPress={()=>verificarLogin(login, senha)} >
-    <Texto texto={'Login'} mt={10} corTexto={'white'} tamanhoFonte={25}  />
-    </TouchableOpacity>
-    </View>
-    <View style={{flexDirection:'row', marginTop:-185}}>
+          <Image source={logo} onPress={() => navigation.navigate('Menu')} style={{ height: 150, width: 150, marginTop: -70, }} />
+
+          <Texto texto={'Seja bem-vindo(a) Novamente!\n'} tamanhoFonte={40} />
+          <TextInput placeholder='Digite seu Email:' style={[styles.input, { marginTop: -20 }]} onChangeText={setEmail} value={email} />
+          <TextInput placeholder='Digite sua Senha:' style={[styles.input, { marginTop: 25 }]} onChangeText={setSenha} value={senha} />
+
+          <Pressable onPress={EsqueciSenha}>
+            <Text style={{ color: 'blue', fontSize: 15, left: -100, top: 10, }}>Esqueci a senha</Text>
+          </Pressable>
+
+          <TouchableOpacity style={styles.button_logar} onPress={() => verificarLogin(email, senha)} >
+            <Texto texto={'Login'} mt={10} corTexto={'white'} tamanhoFonte={25} />
+          </TouchableOpacity>
+
+        </View>
+        <View style={{ flexDirection: 'row', marginTop: -185 }}>
+
           <Texto texto={'Novo por aqui? '} tamanhoFonte={18} />
-        <Text onPress={()=> navigation.navigate('Cadastro')} style={{color:'blue', fontSize:18}}>Cadastre-se</Text>
-        
-        
+          <Text onPress={() => navigation.navigate('Cadastro')} style={{ color: 'blue', fontSize: 18 }}>Cadastre-se</Text>
+
         </View>
 
       </ImageBackground>
@@ -188,7 +186,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     fontSize: 20,
     borderColor: 'transparent',
-  
+
 
   },
   button_logar: {
@@ -199,30 +197,30 @@ const styles = StyleSheet.create({
     width: 250,
     height: 60,
     marginTop: 25,
-    shadowColor: '#000', 
+    shadowColor: '#000',
     shadowOffset: {
       width: 0, height: 2
-    
+
+
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 5
+
 
   },
-  shadowOpacity: 0.25,
-  shadowRadius: 8,
-  elevation: 5
-  
+
+  view_branca: {
+    backgroundColor: 'white',
+
+    height: 680,
+    width: largura,
+    marginTop: 155,
+    borderRadius: 60,
+    alignItems: 'center',
 
   },
 
-  view_branca:{
-    backgroundColor:'white',
-
-    height:680,
-    width:largura,
-    marginTop:155,
-    borderRadius:60,
-   alignItems:'center',
-    
-  },
-  
 
 });
 
