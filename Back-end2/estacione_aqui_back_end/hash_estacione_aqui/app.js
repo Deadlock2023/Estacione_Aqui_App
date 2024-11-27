@@ -1,18 +1,17 @@
+const nodemailer = require('nodemailer');
 const express = require("express");
 const crypto = require("crypto");
 const mysql = require("mysql2/promise");
 const bodyparser = require('body-parser');
-const nodemailer = require('nodemailer');
-const { ADDRGETNETWORKPARAMS } = require("dns");
+const path = require("path");
 const multer = require('multer');
-
-
+const fs = require("fs");
 const app = express();
 const port = 3292;
+
+// Configuração do middleware
 app.use(bodyparser.json());
 app.use(express.json({ limit: '1000mb' }));
-
-app.use(express.json());
 
 // Configuração da conexão com o banco de dados
 const pool = mysql.createPool({
@@ -26,19 +25,101 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-// Rota para gerar e retornar o hash SHA-256 de uma string
-app.get("/hash", (req, res) => {
+// Configuração para servir arquivos estáticos da pasta "uploads"
+const uploadsDir = path.join(__dirname, "uploads");
+app.use("/uploads", express.static(uploadsDir)); // Agora as imagens serão servidas em /uploads
 
-  const { string } = req.query
+// Configuração do multer para uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Pasta onde os arquivos serão salvos
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + path.extname(file.originalname)); // Gera um nome único
+  },
+});
 
-  if (!string) {
-    res.json({ msg: "Nenhuma resposta entregue!" })
+const upload = multer({ storage });
+
+// Rota para upload de imagem
+app.post('/uploads/criar/', upload.single('file'), async (req, res) => {
+  const userId = req.body.userId; // Assuma que o ID do usuário é enviado no body
+  const uploadedFile = req.file;
+
+  if (!uploadedFile) {
+    return res.status(400).json({ error: 'Nenhum arquivo enviado!' });
   }
 
-  const hash = crypto.createHash("SHA256").update(string).digest("hex")
+  const newFilePath = `/uploads/${uploadedFile.filename}`;
 
-  res.json({ msg: hash })
+  try {
+    // Obtém conexão do pool
+    const connection = await pool.getConnection();
 
+    try {
+      // Verifica se já existe uma foto para o usuário
+      const [rows] = await connection.query('SELECT foto FROM usuarios WHERE id = ?', [userId]);
+
+      if (rows.length > 0) {
+        // Substitui a imagem existente
+        const oldFilePath = rows[0].foto ? path.join(__dirname, rows[0].foto) : null;
+
+        await connection.query('UPDATE usuarios SET foto = ? WHERE id = ?', [newFilePath, userId]);
+
+        // Remove o arquivo antigo, se existir
+        if (oldFilePath && fs.existsSync(oldFilePath)) {
+          fs.unlinkSync(oldFilePath);
+        }
+
+        res.status(200).json({ message: 'Foto atualizada com sucesso!', path: newFilePath });
+      } else {
+        // Insere o novo registro
+        await connection.query('INSERT INTO usuarios (id, foto) VALUES (?, ?)', [userId, newFilePath]);
+
+        res.status(201).json({ message: 'Foto salva com sucesso!', path: newFilePath });
+      }
+    } finally {
+      connection.release(); // Libera a conexão de volta para o pool
+    }
+  } catch (error) {
+    console.error('Erro ao acessar o banco de dados:', error);
+    res.status(500).json({ error: 'Erro ao processar a solicitação!' });
+  }
+});
+
+// Rota para gerar e retornar o hash SHA-256 de uma string
+app.get("/hash", (req, res) => {
+  const { string } = req.query;
+
+  if (!string) {
+    res.json({ msg: "Nenhuma resposta entregue!" });
+  }
+
+  const hash = crypto.createHash("SHA256").update(string).digest("hex");
+  res.json({ msg: hash });
+});
+
+// Rota para retornar a URL de uma imagem baseada no ID do usuário
+app.get("/user-image", async (req, res) => {
+  try {
+    const { id } = req.query;
+    if (!id) {
+      return res.status(400).json({ error: "ID do usuário é obrigatório" });
+    }
+
+    const [rows] = await pool.query("SELECT foto FROM usuarios WHERE id = ?", [id]);
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "Usuário não encontrado" });
+    }
+
+    const imageName = rows[0].foto;
+    const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${imageName}`;
+    res.json({ imageUrl });
+  } catch (error) {
+    console.error("Erro ao buscar imagem:", error);
+    res.status(500).json({ error: "Erro no servidor" });
+  }
 });
 
 //----------------------------------------------------------------||----------------------------------------------------------------//
@@ -314,6 +395,28 @@ app.get('/PickImage', async (req, res) => {
   }
 });
 
+app.get('/informacoes-usuarios', async (req, res) => {
+  try { 
+    const { id } = req.query;
+
+    const conexao = await pool.getConnection();
+    const query = `SELECT * FROM usuarios WHERE id = ?`;
+
+    let [linhas] = await conexao.execute(query, [id]);
+
+    if (linhas.length > 0) {
+      res.json({ dados: linhas[0] });
+    } else {
+      res.status(404).json({ error: "Imagem não encontrada" });
+    }
+
+    conexao.release();
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Deu algum erro na conexão" });
+  }
+})
 
 
 // Upload da imagem pro banco
@@ -339,6 +442,63 @@ app.post('/upload', async (req, res) => {
     conexao.release();
   }
 });
+
+
+app.put('/editar', async (req, res) => {
+  const { userId, usuario, email } = req.body;
+
+  if (!userId || !usuario || !email) {
+    return res.status(400).send('Os campos precisam estar preenchidos');
+  }
+
+  let conexao;  // Declare conexao aqui para garantir seu acesso no finally
+  try {
+    conexao = await pool.getConnection();  // Atribua a conexão
+    const query = 'UPDATE usuarios SET usuario = ?, email = ? WHERE id = ?';
+
+    await conexao.execute(query, [usuario, email, userId]);
+
+    res.status(200).send('Dados atualizados com sucesso!');
+  } catch (err) {
+    console.error('Erro ao salvar no banco:', err);
+    res.status(500).send('Erro ao salvar no banco.');
+  } finally {
+    if (conexao) {  // Verifique se a conexão foi estabelecida antes de liberar
+      conexao.release();
+    }
+  }
+});
+
+
+app.get('/api/capturarnome', async (req, res) => {
+  try {
+    const { id } = req.query; // Lendo o id da query string
+
+    if (!id) {
+      return res.status(400).json({ error: 'O ID é obrigatório.' });
+    }
+
+    const conexao = await pool.getConnection();
+
+    try {
+      const query = 'SELECT usuario FROM usuarios WHERE id = ?';
+      const [results] = await conexao.execute(query, [id]);
+
+      if (results.length === 0) {
+        return res.status(404).json({ error: 'Usuário não encontrado.' });
+      }
+
+      res.status(200).json(results[0]);
+    } finally {
+      conexao.release();
+    }
+  } catch (error) {
+    console.error('Erro inesperado:', error);
+    res.status(500).json({ error: 'Erro inesperado no servidor.' });
+  }
+});
+
+
 
 
 //----------------------------------------------------------------||----------------------------------------------------------------//

@@ -1,71 +1,46 @@
 import React, { useState } from 'react';
-import { ImageBackground, StyleSheet, Text, View, Dimensions, Image, TextInput, TouchableOpacity, Pressable } from 'react-native';
-import { useFonts } from 'expo-font';
+import { 
+  ImageBackground, 
+  StyleSheet, 
+  Text, 
+  View, 
+  Dimensions, 
+  Image, 
+  TextInput, 
+  TouchableOpacity, 
+  Pressable, 
+  Alert 
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useRoute } from '@react-navigation/native';
-import Botao from '../components/Botao';
-import Texto from '../components/Texto';
-import input from '../components/InputText';
-import { Switch } from 'react-native-paper'
-import Input from '../components/InputText';
-import { AntDesign } from '@expo/vector-icons';
-import TelaPrincipal from './TelaInterface';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import EsqueciSenha from './EsqueciSenha';
-import TelaPerfil from './TelaPerfil';
+import { AntDesign } from '@expo/vector-icons';
+import Texto from '../components/Texto';
 
+// Configurações iniciais
+const largura = Dimensions.get("screen").width;
+const altura = Dimensions.get("screen").height;
 
-// ideia boa, execução ruim
+const fundo_claro = require('../../assets/imgs/FundoCadastrologin.png');
+const fundo_escuro = require('../../assets/imgs/fundo_escuro3.jpg');
+const logo = require('../../assets/imgs/EstacioneAqui(2).png');
 
-
-// const api = "10.111.9.55"
-const api = "192.168.100.14"
-
-// Pegando o tamanho total da tela do celular
-const largura = Dimensions.get("screen").width
-const altura = Dimensions.get("screen").height
-
-const fundo_claro3 = require('../../assets/imgs/FundoCadastrologin.png')
-const fundo_escuro3 = require('../../assets/imgs/fundo_escuro3.jpg')
-const logo = require('../../assets/imgs/EstacioneAqui(2).png')
-
-const servidor = `http://${api}:3292/login`
-
-
+const api = "192.168.100.14";
+const servidor = `http://${api}:3292/login`;
 
 const Login = () => {
   const navigation = useNavigation();
-
-  const [imagem, setImagem] = useState(fundo_claro3);
-  const [Modo, setModo] = useState(false);
-  let [fonte, setFonte] = useState('#04588c')
-  let [CorView, setCorview] = useState('#c7c7c7')
-
-  const onToggleSwitch = () => {
-    setModo(!Modo)
-    if (Modo == false) {
-      setImagem(fundo_escuro3)
-      setFonte('white')
-      setCorview('#bdb9b9')
-      console.log('Light Mode')
-    } else {
-      // setModo(fundo_escuro)
-      setImagem(fundo_claro3)
-      setCorview('#c7c7c7')
-      setFonte('#5a5a5a')
-      console.log('Dark Mode')
-    }
-  }
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const route = useRoute;
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
+  const toggleDarkMode = () => setIsDarkMode((prevMode) => !prevMode);
 
-  function EsqueciSenha() {
-    navigation.replace('EsqueciSenha');
-  }
+  const verificarLogin = async () => {
+    if (!email.trim() || !senha.trim()) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
+      return;
+    }
 
-  const verificarLogin = async (email, senha) => {
     try {
       const response = await fetch(servidor, {
         method: 'POST',
@@ -80,78 +55,77 @@ const Login = () => {
       }
 
       const data = await response.json();
+      await AsyncStorage.setItem('userData', data.id);
+      await AsyncStorage.setItem('userName', data.usuario);
 
-      // Salva os dados do usuário localmente
-      await AsyncStorage.setItem('userData', JSON.stringify({ id: data.id }));
-      await AsyncStorage.setItem('userName', JSON.stringify({ usuario: data.usuario }));
-
-      // Navega para a TelaPrincipal
       navigation.navigate('MainApp');
     } catch (error) {
-      alert("Falha na autenticação, digite a senha ou email corretamente!");
+      Alert.alert('Erro', 'Falha na autenticação. Verifique suas credenciais.');
     }
   };
 
-
   return (
     <View style={styles.container}>
-      <ImageBackground source={imagem} style={styles.img_fundo}>
-        <AntDesign style={{ marginTop: 45, alignSelf: 'flex-start', left: 2 }} onPress={() => navigation.navigate('Menu')} name="arrowleft" size={30} color="black" />
-        <View style={styles.view_branca}>
+      <ImageBackground source={isDarkMode ? fundo_escuro : fundo_claro} style={styles.img_fundo}>
+        <AntDesign 
+          style={styles.backIcon} 
+          onPress={() => navigation.navigate('Menu')} 
+          name="arrowleft" 
+          size={30} 
+          color={isDarkMode ? 'white' : 'black'} 
+        />
+        <View style={[styles.view_branca, { backgroundColor: isDarkMode ? '#1e1e1e' : 'white' }]}>
+          <Image source={logo} style={styles.logo} />
+          <Texto texto="Seja bem-vindo(a) Novamente!" tamanhoFonte={28} corTexto={isDarkMode ? 'white' : '#04588c'} />
+          
+          <TextInput 
+            placeholder="Digite seu Email:" 
+            placeholderTextColor={isDarkMode ? '#b0b0b0' : '#7f7f7f'} 
+            style={[styles.input, { backgroundColor: isDarkMode ? '#2e2e2e' : '#f5f5f5', color: isDarkMode ? 'white' : 'black' }]} 
+            onChangeText={setEmail} 
+            value={email} 
+          />
+          <TextInput 
+            placeholder="Digite sua Senha:" 
+            placeholderTextColor={isDarkMode ? '#b0b0b0' : '#7f7f7f'} 
+            style={[styles.input, { backgroundColor: isDarkMode ? '#2e2e2e' : '#f5f5f5', color: isDarkMode ? 'white' : 'black' }]} 
+            onChangeText={setSenha} 
+            value={senha} 
+            secureTextEntry 
+          />
 
-          <Image source={logo} onPress={() => navigation.navigate('Menu')} style={{ height: 150, width: 150, marginTop: -70, }} />
-
-          <Texto texto={'Seja bem-vindo(a) Novamente!\n'} tamanhoFonte={40} />
-          <TextInput placeholder='Digite seu Email:' style={[styles.input, { marginTop: -20 }]} onChangeText={setEmail} value={email} />
-          <TextInput placeholder='Digite sua Senha:' style={[styles.input, { marginTop: 25 }]} onChangeText={setSenha} value={senha} />
-
-          <Pressable onPress={EsqueciSenha}>
-            <Text style={{ color: 'blue', fontSize: 15, left: -100, top: 10, }}>Esqueci a senha</Text>
+          <Pressable onPress={() => navigation.navigate('EsqueciSenha')}>
+            <Text style={[styles.forgotPassword, { color: isDarkMode ? '#4f9ce2' : 'blue' }]}>Esqueci a senha</Text>
           </Pressable>
 
-          <TouchableOpacity style={styles.button_logar} onPress={() => verificarLogin(email, senha)} >
-            <Texto texto={'Login'} mt={10} corTexto={'white'} tamanhoFonte={25} />
+          <TouchableOpacity style={styles.button_logar} onPress={verificarLogin}>
+            <Texto texto="Login" corTexto="white" tamanhoFonte={20} />
           </TouchableOpacity>
-
-        </View>
-        <View style={{ flexDirection: 'row', marginTop: -185 }}>
-
-          <Texto texto={'Novo por aqui? '} tamanhoFonte={18} />
-          <Text onPress={() => navigation.navigate('Cadastro')} style={{ color: 'blue', fontSize: 18 }}>Cadastre-se</Text>
-
         </View>
 
+        <View style={styles.footer}>
+          <Texto texto="Novo por aqui? " tamanhoFonte={16} corTexto={isDarkMode ? 'white' : 'black'} />
+          <Text 
+            onPress={() => navigation.navigate('Cadastro')} 
+            style={[styles.link, { color: isDarkMode ? '#4f9ce2' : 'blue' }]}
+          >
+            Cadastre-se
+          </Text>
+        </View>
+
+        <TouchableOpacity style={styles.switchMode} onPress={toggleDarkMode}>
+          <Text style={{ color: isDarkMode ? 'white' : 'black' }}>
+            {isDarkMode ? 'Modo Claro' : 'Modo Escuro'}
+          </Text>
+        </TouchableOpacity>
       </ImageBackground>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  view_login: {
-    border: 10,
-    borderRadius: 40,
-    backgroundColor: '#c7c7c7',
-    marginTop: 120,
-    height: 550,
-    width: 360,
-    alignItems: 'center',
-
-  },
-
-  login_text: {
-    alignItems: 'center',
-    fontSize: 40,
-    fontWeight: 'bold',
-    textAlign: "center",
-
-
   },
   img_fundo: {
     height: altura,
@@ -159,69 +133,62 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
     alignItems: 'center',
-
-
   },
-  identificar_text2: {
-    fontSize: 20,
-    marginTop: 15,
-    color: 'blue'
+  backIcon: {
+    marginTop: 45,
+    alignSelf: 'flex-start',
+    left: 10,
   },
-  text_login: {
-    fontSize: 35,
-    marginTop: 15,
-
-  },
-  text: {
-    fontSize: 35,
-
-    marginTop: 15,
-  },
-  input: {
-    borderWidth: 3,
-    height: 60,
-    width: 350,
-    textAlign: 'center',
-    borderRadius: 50,
-    backgroundColor: '#f5f5f5',
-    fontSize: 20,
-    borderColor: 'transparent',
-
-
-  },
-  button_logar: {
-    alignItems: 'center',
-    backgroundColor: '#36295e',
-    borderRadius: 50,
-    alignItems: 'center',
-    width: 250,
-    height: 60,
-    marginTop: 25,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0, height: 2
-
-
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 5
-
-
-  },
-
   view_branca: {
-    backgroundColor: 'white',
-
     height: 680,
     width: largura,
     marginTop: 155,
     borderRadius: 60,
     alignItems: 'center',
-
+    padding: 20,
   },
-
-
+  logo: {
+    height: 150,
+    width: 150,
+    marginTop: -70,
+  },
+  input: {
+    borderWidth: 1,
+    height: 60,
+    width: '90%',
+    textAlign: 'center',
+    borderRadius: 30,
+    fontSize: 18,
+    marginVertical: 10,
+  },
+  forgotPassword: {
+    fontSize: 15,
+    marginTop: 10,
+    alignSelf: 'flex-start',
+    marginLeft: '5%',
+  },
+  button_logar: {
+    backgroundColor: '#36295e',
+    borderRadius: 30,
+    alignItems: 'center',
+    width: '70%',
+    height: 50,
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  footer: {
+    flexDirection: 'row',
+    marginTop: -120,
+  },
+  link: {
+    fontSize: 16,
+  },
+  switchMode: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    padding: 10,
+  },
 });
 
-export default Login
+export default Login;

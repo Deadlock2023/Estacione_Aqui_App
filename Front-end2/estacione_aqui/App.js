@@ -20,6 +20,7 @@ import RedefinirSenha from "./src/screens/RedefinirSenha";
 import EsqueciSenha from "./src/screens/EsqueciSenha";
 import TelaMapa from "./src/screens/TelaMapa";
 import TelaPerfil from "./src/screens/TelaPerfil";
+import TelaEdicao from "./src/screens/TelaEdicao";
 
 // Criando o Tab Navigator para a parte inferior da tela
 const Tab = createBottomTabNavigator();
@@ -84,7 +85,7 @@ function MainTabNavigator() {
           right: 70,
           backgroundColor: '#191918',
           borderRadius: 30,
-          height: 70,
+          height: 80,
           paddingBottom: 10,
           shadowColor:  'black',
           shadowOffset: {
@@ -139,9 +140,8 @@ export default function App() {
         <Stack.Screen name='FaleConosco' component={FaleConosco} options={{ headerShown: false }} />
         <Stack.Screen name="Verificar codigo" component={VerificarCodigo} options={{ headerShown: false }}/> 
         <Stack.Screen name="Redefinir Senha" component={RedefinirSenha} options={{ headerShown: false }}/> 
-        
         <Stack.Screen name="TelaPerfil" component={TelaPerfil} options={{ headerShown: false }}/> 
-       
+        <Stack.Screen name="TelaEdicao" component={TelaEdicao} options={{ headerShown: false }}/>
     
 
         {/* Tela inicial (print que você mandou) */}
