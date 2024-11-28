@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { ImageBackground, StyleSheet,Text, View, Dimensions, TextInput, Image } from 'react-native';
+import { ImageBackground, StyleSheet,Text, View, Dimensions, TextInput, Image,TouchableOpacity,Linking } from 'react-native';
 import { useFonts } from 'expo-font';
 import { useNavigation } from "@react-navigation/native";
 import Botao from '../components/Botao';
@@ -47,7 +47,16 @@ const FaleConosco = () => {
         console.log('Dark Mode')
       }
     }
-
+    const handleInstagramLink = () => {
+      const instagramUsername = '_estacione_aqui_'; // Substitua com o nome de usuário do Instagram
+      const url = `https://instagram.com/${instagramUsername}`;
+      Linking.openURL(url).catch((err) => console.error('Erro ao abrir o Instagram:', err));
+    };
+    const handleWhatsAppLink = () => {
+      const whatsappGroupLink = 'https://chat.whatsapp.com/FWTGysV8bM8AmJ8HdPrGEt';  // Seu link de convite para o grupo
+      Linking.openURL(whatsappGroupLink).catch((err) => console.error('Erro ao abrir o WhatsApp:', err));
+    };
+  
 
     const navigation = useNavigation()
 
@@ -65,25 +74,15 @@ const FaleConosco = () => {
       </View>
 
           <View style={styles.contatos}>
-            
+          <TouchableOpacity onPress={handleWhatsAppLink}>
             <Text style={{fontSize:30, color:'white', fontWeight:'bold'}}>Whatsapp </Text><Image style={styles.imagem} source={Zap}/>
-           
+            </TouchableOpacity>
           </View>
 
           <View style={styles.contatos}>
+          <TouchableOpacity onPress={handleInstagramLink}>
             <Text style={{fontSize:30,color:'white', fontWeight:'bold'}}>Instagram </Text><Image style={styles.imagem} source={Insta}/>
-          </View>
-    
-          <View style={styles.contatos}>
-            <Text style={{fontSize:30,color:'white', fontWeight:'bold'}}>Twitter       </Text>
-            <Image style={styles.imagem} source={X}/>
-            
-        
-        
-          
-         
-       
-            <Text></Text>
+            </TouchableOpacity>
           </View>
           </ImageBackground>
         </View>
@@ -118,6 +117,7 @@ const styles = StyleSheet.create({
     
   },
   contatos: {
+    justifyContent:'space-between',
     flexDirection: "row",
     borderRadius:10,
     padding: 10,

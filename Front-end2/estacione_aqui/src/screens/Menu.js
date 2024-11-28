@@ -12,7 +12,7 @@ import { processFontFamily } from "expo-font";
 
 
 
-const fundo_claro1 = require('../../assets/imgs/AFundoNovo.png')
+const fundo_claro1 = require('../../assets/imgs/FundoDark.png')
 const fundo_escuro1 = require('../../assets/imgs/FundoLight.png')
 const logo = require('../../assets/imgs/EstacioneAqui(2).png')
 

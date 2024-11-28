@@ -8,6 +8,7 @@ import { Switch } from 'react-native-paper'
 import { AntDesign } from '@expo/vector-icons';
 import Login from './Login';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import validator from 'validator';
 
 
 
@@ -58,6 +59,19 @@ const Cadastro = ({ navigation }) => {
       alert("Todos os campos devem ser preenchidos!");
       return;
     }
+    if ((!validator.matches(email, /^(?:(?:[\w`~!#$%^&*\-=+;:{}'|,?\/]+(?:(?:\.(?:"(?:\\?[\w`~!#$%^&*\-=+;:{}'|,?\/\.()<>\[\] @]|\\"|\\\\)*"|[\w`~!#$%^&*\-=+;:{}'|,?\/]+))*\.[\w`~!#$%^&*\-=+;:{}'|,?\/]+)?)|(?:"(?:\\?[\w`~!#$%^&*\-=+;:{}'|,?\/\.()<>\[\] @]|\\"|\\\\)+"))@(?:[a-zA-Z\d\-]+(?:\.[a-zA-Z\d\-]+)*|\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])$/)) || (validator.isEmail(email) != true)) {
+      alert("O campo Email não foi preenchido corretamente");
+      return;
+    }
+    if (senha.length < 6 || senha.length > 32) {
+      alert("A senha deve ter entre 6 e 12 caracteres.");
+      return;
+    }
+    const senhaValida = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,12}$/;
+  if (!senhaValida.test(senha)) {
+    alert("A senha deve conter pelo menos 1 número, 1 letra maiúscula e 1 caractere especial.");
+    return;
+  }
     console.log("usuario: " + usuario, "email: " + email, "senha: " + senha)
     try {
       const response = await fetch(`http://${api}:3292/cadastrar`, {
