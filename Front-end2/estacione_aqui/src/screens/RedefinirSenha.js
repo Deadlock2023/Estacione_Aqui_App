@@ -6,7 +6,7 @@ import { TextoInput } from '../components/TextoB';
 
  
 const { width, height } = Dimensions.get('window');
-const rota = "http://10.111.9.55:3292";
+const rota = "http://192.168.100.14:3292";
  
 export default function RedefinirSenha() {
   const navigation = useNavigation();
@@ -69,7 +69,7 @@ export default function RedefinirSenha() {
       {/* <Image style={styles.logo} source={require('../../assets/Imgs/Crip.png')} /> */}
         <View style={styles.container_2}>
           <TextoInput
-            color={"#D2F0EE"}
+            color={"#EBEBEB"}
             width={width * 0.8}
             borda={30}
             margin={20}
@@ -82,7 +82,7 @@ export default function RedefinirSenha() {
             descricao={setSenha}
           />
           <TextoInput
-            color={"#D2F0EE"}
+            color={"#EBEBEB"}
             width={width * 0.8}
             borda={30}
             height={60}
@@ -98,7 +98,7 @@ export default function RedefinirSenha() {
  
           <Button
             texto={` Redefinir Senha`}
-            texcolor={"white"}
+            texcolor={"black"}
             acao={handleRedefinirSenha}
             width={width * 0.8 * 0.5}
             margin={20}

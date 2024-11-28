@@ -71,7 +71,7 @@ function Menu() {
         <TouchableOpacity style={styles.button_ir} onPress={() => navigation.navigate('Cadastro')}>
           <Texto texto={"Cadastra-se"}  corTexto={'white'} tamanhoFonte={27} mt={6}></Texto>
         </TouchableOpacity>
-        <Text style={[styles.identificar_text2, {alignSelf:'flex-end', top:120, right:10,}]}  onPress={()=> navigation.navigate('FaleConosco')}>(Fale Conosco)</Text>
+        
 
 
 

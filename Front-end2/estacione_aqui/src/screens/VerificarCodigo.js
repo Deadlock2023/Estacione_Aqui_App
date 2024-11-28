@@ -6,7 +6,7 @@ import axios from 'axios';
 const { width, height } = Dimensions.get('window');
  
 const VerificarCodigo = ({ navigation, route }) => {
-    const rota = "http://10.111.9.55:3292"; // Certifique-se de que esta URL está correta
+    const rota = "http://192.168.100.14:3292"; // Certifique-se de que esta URL está correta
     const [codigo, setCodigo] = useState('');
     const [isFocused, setIsFocused] = useState(false);
     const [fadeAnim] = useState(new Animated.Value(0));
@@ -89,7 +89,7 @@ const VerificarCodigo = ({ navigation, route }) => {
                         onFocus={handleFocus}
                         onBlur={handleBlur}
                         placeholder="Digite o código de verificação"
-                        placeholderTextColor="#000000"
+                        placeholderTextColor="#black"
                         />
                 </Animated.View>
             </View>
@@ -107,14 +107,14 @@ const VerificarCodigo = ({ navigation, route }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#D2F0EE',
+        backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
         height: height *  0.9,
  
     },
     container_2: {
-        backgroundColor: '#73D2C0',
+        backgroundColor: 'white',
         width: width ,
         height: height *  0.65 ,
         alignItems: 'center',
@@ -123,12 +123,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 45,
         shadowColor: '#000',
       },
-    logo: {
-        height: 150,
-        width: 150,
-        marginBottom: 20,
-        marginTop: 350
-    },
+
     title: {
         fontSize: 28,
         fontWeight: 'bold',
@@ -150,7 +145,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 15,
         fontSize: 15,
-        color: '#000000',
+        color: 'black',
     },
     button: {
         backgroundColor: '#000000',

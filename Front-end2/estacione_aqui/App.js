@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Image, View,Text } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring,withTiming } from 'react-native-reanimated';
+import { SpeedDial } from 'react-native-elements';
 import 'react-native-gesture-handler';
 
 // IMPORT DAS TELAS
@@ -21,6 +22,7 @@ import EsqueciSenha from "./src/screens/EsqueciSenha";
 import TelaMapa from "./src/screens/TelaMapa";
 import TelaPerfil from "./src/screens/TelaPerfil";
 import TelaEdicao from "./src/screens/TelaEdicao";
+
 
 // Criando o Tab Navigator para a parte inferior da tela
 const Tab = createBottomTabNavigator();
@@ -140,8 +142,9 @@ export default function App() {
         <Stack.Screen name='FaleConosco' component={FaleConosco} options={{ headerShown: false }} />
         <Stack.Screen name="Verificar codigo" component={VerificarCodigo} options={{ headerShown: false }}/> 
         <Stack.Screen name="Redefinir Senha" component={RedefinirSenha} options={{ headerShown: false }}/> 
-        <Stack.Screen name="TelaPerfil" component={TelaPerfil} options={{ headerShown: false }}/> 
         <Stack.Screen name="TelaEdicao" component={TelaEdicao} options={{ headerShown: false }}/>
+        <Stack.Screen name="TelaPerfil" component={TelaPerfil} options={{ headerShown: false }}/> 
+        <Stack.Screen name="Fale Conosco" component={FaleConosco} options={{ headerShown: false }}/>
     
 
         {/* Tela inicial (print que você mandou) */}

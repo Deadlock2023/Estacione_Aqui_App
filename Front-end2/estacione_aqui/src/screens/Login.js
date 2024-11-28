@@ -74,9 +74,9 @@ const Login = () => {
           size={30} 
           color={isDarkMode ? 'white' : 'black'} 
         />
-        <View style={[styles.view_branca, { backgroundColor: isDarkMode ? '#1e1e1e' : 'white' }]}>
+        <View style={[styles.view_branca, { backgroundColor:  'white' }]}>
           <Image source={logo} style={styles.logo} />
-          <Texto texto="Seja bem-vindo(a) Novamente!" tamanhoFonte={28} corTexto={isDarkMode ? 'white' : '#04588c'} />
+          <Texto texto="Seja bem-vindo(a) Novamente!" tamanhoFonte={28} corTexto={  'black'} />
           
           <TextInput 
             placeholder="Digite seu Email:" 
@@ -87,15 +87,15 @@ const Login = () => {
           />
           <TextInput 
             placeholder="Digite sua Senha:" 
-            placeholderTextColor={isDarkMode ? '#b0b0b0' : '#7f7f7f'} 
-            style={[styles.input, { backgroundColor: isDarkMode ? '#2e2e2e' : '#f5f5f5', color: isDarkMode ? 'white' : 'black' }]} 
+            placeholderTextColor={ '#7f7f7f'} 
+            style={[styles.input]} 
             onChangeText={setSenha} 
             value={senha} 
             secureTextEntry 
           />
 
           <Pressable onPress={() => navigation.navigate('EsqueciSenha')}>
-            <Text style={[styles.forgotPassword, { color: isDarkMode ? '#4f9ce2' : 'blue' }]}>Esqueci a senha</Text>
+            <Text style={[styles.forgotPassword]}>Esqueci a senha</Text>
           </Pressable>
 
           <TouchableOpacity style={styles.button_logar} onPress={verificarLogin}>
@@ -104,7 +104,7 @@ const Login = () => {
         </View>
 
         <View style={styles.footer}>
-          <Texto texto="Novo por aqui? " tamanhoFonte={16} corTexto={isDarkMode ? 'white' : 'black'} />
+          <Texto texto="Novo por aqui? " tamanhoFonte={16}  />
           <Text 
             onPress={() => navigation.navigate('Cadastro')} 
             style={[styles.link, { color: isDarkMode ? '#4f9ce2' : 'blue' }]}
@@ -113,11 +113,7 @@ const Login = () => {
           </Text>
         </View>
 
-        <TouchableOpacity style={styles.switchMode} onPress={toggleDarkMode}>
-          <Text style={{ color: isDarkMode ? 'white' : 'black' }}>
-            {isDarkMode ? 'Modo Claro' : 'Modo Escuro'}
-          </Text>
-        </TouchableOpacity>
+      
       </ImageBackground>
     </View>
   );
@@ -165,7 +161,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginTop: 10,
     alignSelf: 'flex-start',
-    marginLeft: '5%',
+    marginLeft: '-20',
+    color:'blue'
   },
   button_logar: {
     backgroundColor: '#36295e',
@@ -178,7 +175,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: 'row',
-    marginTop: -120,
+    marginTop: -220,
   },
   link: {
     fontSize: 16,

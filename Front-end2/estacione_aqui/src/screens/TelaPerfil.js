@@ -5,8 +5,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import FaleConosco from './FaleConosco';
+
+
 
 const API_URL = "http://192.168.100.14:3292";
+
+const Fale = require('../../assets/imgs/Faleconoscoicone.png');
 
 function TelaPerfil() {
   const [login, setUsuario] = useState('');
@@ -131,17 +136,20 @@ function TelaPerfil() {
               style={styles.iconePerfil}
               resizeMode="cover"
             />
+          
             <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-              <MaterialCommunityIcons name="logout" size={24} color="white" />
+              <MaterialCommunityIcons name="logout" size={24} color="red" />
             </TouchableOpacity>
 
             <Text style={styles.nameText}>{nome || 'Nome não encontrado'}</Text>
 
             <View style={styles.infoContainer}>
-              <Text style={styles.detailsTitle}>Detalhes da Conta</Text>
               <Pressable onPress={() => navigation.navigate('TelaEdicao')} style={styles.button}>
                 <Text style={styles.buttonText}>Editar Perfil</Text>
               </Pressable>
+              <Text style={styles.detailsTitle}>Precisa de ajuda?</Text>
+              <Text style={styles.detailsTitle}onPress={()=> navigation.navigate('Fale Conosco')}>(FaleConosco)</Text>
+              <Image source={Fale} style={styles.faleconosco} />
             </View>
           </>
         )}
@@ -183,6 +191,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   iconePerfil: {
+    top:-70,
     backgroundColor: '#fff',
     width: 145,
     height: 145,
@@ -193,14 +202,15 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     position: 'absolute',
-    top: 15,
+    marginTop: 45,
+    top:-220,
     right: 20,
     padding: 10,
-    backgroundColor: '#ff4d4d',
     borderRadius: 50,
     zIndex: 1,
   },
   nameText: {
+    top:-110,
     fontSize: 22,
     marginTop: 20,
     fontWeight: 'bold',
@@ -210,6 +220,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '100%',
     alignItems: 'center',
+   
   },
   detailsTitle: {
     fontSize: 18,
@@ -218,6 +229,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   button: {
+    top:-120,
     padding: 12,
     backgroundColor: '#080E19',
     borderRadius: 10,
@@ -229,6 +241,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
   },
+  faleconosco: {
+    width: 15,
+    height: 15,
+    left:88,
+    top:-28,
+  }
 });
 
 export default TelaPerfil;
