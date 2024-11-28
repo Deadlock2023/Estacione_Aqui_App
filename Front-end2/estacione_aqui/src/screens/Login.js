@@ -24,7 +24,7 @@ const fundo_claro = require('../../assets/imgs/FundoCadastrologin.png');
 const fundo_escuro = require('../../assets/imgs/fundo_escuro3.jpg');
 const logo = require('../../assets/imgs/EstacioneAqui(2).png');
 
-const api = "192.168.100.14";
+const api = "10.111.9.94";
 const servidor = `http://${api}:3292/login`;
 
 const Login = () => {

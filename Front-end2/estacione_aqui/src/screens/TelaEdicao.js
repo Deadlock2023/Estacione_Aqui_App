@@ -7,7 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_URL = "http://192.168.100.14:3292"; // Altere conforme seu servidor
+const API_URL = "http://10.111.9.94:3292"; // Altere conforme seu servidor
 
 function TelaEdicao() {
   const navigation = useNavigation();
@@ -125,6 +125,7 @@ function TelaEdicao() {
       console.error('Erro ao salvar dados:', error);
       Alert.alert('Erro', 'Ocorreu um erro ao salvar os dados.');
     }
+    navigation.navigate('MainApp')
   };
 
   return (

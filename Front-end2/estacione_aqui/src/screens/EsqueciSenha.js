@@ -10,7 +10,7 @@ const fundo = require('../../assets/imgs/EstacioneAqui(2).png')
 
 
 const EsqueciSenha = ({ navigation }) => {
-    const rota = "http://192.168.100.14:3292"; // Certifique-se de que esta URL está correta
+    const rota = "http://10.111.9.94:3292"; // Certifique-se de que esta URL está correta
  
     const [email, setEmail] = useState('');
     const [isFocused, setIsFocused] = useState(false);

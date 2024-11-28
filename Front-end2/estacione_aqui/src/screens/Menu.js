@@ -57,11 +57,11 @@ function Menu() {
     <ImageBackground source={imagem} style={{ width: largura, height: altura }}>
       {/* switch */}
       <View style={{ flexDirection: 'row', justifyContent: 'flex-end', }}>
-        <Texto tamanhoFonte={18}  texto={'Ativar modo escuro'} corTexto={"black"} mt={55}></Texto>
-        <Switch value={Modo} style={{ marginTop: 45, marginRight:1, marginLeft:-5, transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }} onValueChange={onToggleSwitch} />
+        {/* <Texto tamanhoFonte={18}  texto={'Ativar modo escuro'} corTexto={"black"} mt={55}></Texto> */}
+        {/* <Switch value={Modo} style={{ marginTop: 45, marginRight:1, marginLeft:-5, transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }} onValueChange={onToggleSwitch} /> */}
         {/* switch */}
       </View>
-      <View style={{ alignContent: 'center', alignItems: 'center', height: altura, width: largura, marginTop:50}}>
+      <View style={{ alignContent: 'center', alignItems: 'center', height: altura, width: largura, marginTop:80}}>
       <Image source={logo} style={{ height: 200, width: 200, bottom:-90, }} />
        
         <TouchableOpacity style={styles.button_ir2} onPress={() => navigation.navigate('Login')}>

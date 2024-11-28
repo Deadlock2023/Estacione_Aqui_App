@@ -26,7 +26,7 @@ function TelaMapa() {
   // Função para obter as localizações da API
   const fetchLocations = async () => {
     try {
-      const response = await fetch('http://192.168.100.14:3292/localizar_estabelecimentos');
+      const response = await fetch('http://10.111.9.94:3292/localizar_estabelecimentos');
       const data = await response.json();
 
       // Transformar os dados para coordenadas que o MapView aceita

@@ -56,7 +56,7 @@ const FaleConosco = () => {
       <ImageBackground source={imagem} resizeMode="cover" style={styles.FundoImagem}>
       <View style={styles.container2}>
 
-      <AntDesign style={{alignSelf:'flex-start',right:45  }} onPress={() => navigation.navigate('TelaPerfil')} name="arrowleft"  size={30} color="black" />
+      <AntDesign style={{alignSelf:'flex-start',right:45  }} onPress={() => navigation.navigate('MainApp')} name="arrowleft"  size={30} color="black" />
         <Image style={styles.IconeApp} source={Icone}/>
         <View style={styles.container3}>
         <Text style={styles.textoTitulo}>Fale Conosco</Text>

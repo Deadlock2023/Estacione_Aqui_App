@@ -10,7 +10,7 @@ function LocaisCards() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://192.168.100.14:3292/montarcards');
+        const response = await fetch('http://10.111.9.94:3292/montarcards');
         const data = await response.json();
         setEstacionamentos(data);
         setFilteredEstacionamentos(data); // Inicializa a lista filtrada

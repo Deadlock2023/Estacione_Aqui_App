@@ -47,6 +47,8 @@ app.post('/uploads/criar/', upload.single('file'), async (req, res) => {
   const userId = req.body.userId; // Assuma que o ID do usuário é enviado no body
   const uploadedFile = req.file;
 
+  console.log('Caiu aqui vei')
+
   if (!uploadedFile) {
     return res.status(400).json({ error: 'Nenhum arquivo enviado!' });
   }
