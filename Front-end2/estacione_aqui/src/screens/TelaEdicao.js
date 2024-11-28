@@ -7,7 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_URL = "http://10.111.9.94:3292"; // Altere conforme seu servidor
+const API_URL = "http://192.168.137.1:3292"; // Altere conforme seu servidor
 
 function TelaEdicao() {
   const navigation = useNavigation();

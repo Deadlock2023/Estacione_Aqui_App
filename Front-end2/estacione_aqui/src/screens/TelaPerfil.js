@@ -9,7 +9,7 @@ import FaleConosco from './FaleConosco';
 
 
 
-const API_URL = "http://10.111.9.94:3292";
+const API_URL = "http://192.168.137.1:3292";
 
 const Fale = require('../../assets/imgs/Faleconoscoicone.png');
 
